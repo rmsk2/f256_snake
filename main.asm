@@ -150,6 +150,7 @@ _done
 
 processTimerEvent
     jsr snake.processUserInput
+    jsr snake.spawnFood
     jsr setTimerAnimation
     rts
 

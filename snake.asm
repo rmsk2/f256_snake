@@ -18,6 +18,7 @@ STATE_WAITING = 8                    ; Waiting for restart or quit
 
 HEAD_CHAR = 214
 BODY_CHAR = 215
+FOOD_CHAR = 255
 
 snake_t .struct
     xPos      .byte OFFSET_X
@@ -25,6 +26,7 @@ snake_t .struct
     direction .byte 0
     speed     .byte 10
     state     .byte STATE_WAITING
+    spawnFood .byte BOOL_TRUE
 .endstruct
 
 GAME .dstruct snake_t
@@ -64,6 +66,9 @@ init
 
     lda #RIGHT
     sta GAME.direction
+
+    lda #BOOL_TRUE
+    sta GAME.spawnFood
 
     rts
 
@@ -292,10 +297,54 @@ _done
     jsr checkEnd
     bcc _finished
     jsr pushPos
+    jsr checkFood
+    bcs _foodEaten    
     jsr deleteLast
+_foodEaten    
     jsr changeHeadIntoBody
     jsr plotHead
 _finished
+    rts
+
+
+spawnFood
+    lda GAME.spawnFood
+    beq _done
+    
+    ldx #15
+    lda #5
+    jsr txtio.peekChar
+    cmp #$20
+    bne _done
+
+    ldx #15
+    ldy #5
+    lda #FOOD_CHAR
+    jsr txtio.pokeChar
+    
+    lda #BOOL_FALSE
+    sta GAME.spawnFood
+_done
+    rts
+
+
+checkFood
+    clc
+    lda GAME.xPos
+    adc #OFFSET_X
+    tax
+    lda GAME.yPos
+    clc
+    adc #OFFSET_Y
+    jsr txtio.peekChar
+    cmp #FOOD_CHAR
+    beq _eaten
+    clc
+    rts
+_eaten
+    lda #BOOL_TRUE
+    sta GAME.spawnFood
+    sec
     rts
 
 .endnamespace

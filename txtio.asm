@@ -345,12 +345,7 @@ getChar
     rts
 
 
-TEMP_X .byte 0
-TEMP_Y .byte 0
-peekChar
-    stx TEMP_X
-    sta TEMP_Y
-
+getScreenPtr
     lda CURSOR_STATE.xMax
     sta $DE00
     stz $DE01
@@ -377,7 +372,15 @@ peekChar
     lda TXT_PTR1+1
     adc CURSOR_STATE.vramOffset+1
     sta TXT_PTR1+1
+    rts
 
+
+TEMP_X .byte 0
+TEMP_Y .byte 0
+peekChar
+    stx TEMP_X
+    sta TEMP_Y
+    jsr getScreenPtr
     #saveIoState    
     #toTxtMatrix
     lda (TXT_PTR1)
@@ -386,6 +389,19 @@ peekChar
     pla
     rts
 
+
+DATA_TEMP .byte 0
+pokeChar
+    sta DATA_TEMP
+    stx TEMP_X
+    sty TEMP_Y
+    jsr getScreenPtr
+    #saveIoState    
+    #toTxtMatrix
+    lda DATA_TEMP
+    sta (TXT_PTR1)
+    #restoreIoState
+    rts
 
 
 ; --------------------------------------------------
