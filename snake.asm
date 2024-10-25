@@ -1,8 +1,8 @@
-SCREEN_X = 64
-SCREEN_Y = 32
+SCREEN_X = 30
+SCREEN_Y = 20
 
-OFFSET_X = 8
-OFFSET_Y = 1
+OFFSET_X = 15
+OFFSET_Y = 5
 
 snake .namespace
 
@@ -27,6 +27,7 @@ snake_t .struct
     speed     .byte 10
     state     .byte STATE_WAITING
     spawnFood .byte BOOL_TRUE
+    points    .word 0
 .endstruct
 
 GAME .dstruct snake_t
