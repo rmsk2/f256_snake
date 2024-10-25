@@ -183,6 +183,17 @@ twosComplement16 .macro memAddr
 .endmacro
 
 
+mod8x8Immediate .macro modulus, memAddrSrc, memAddrTarget
+    lda #\modulus
+    sta $DE04
+    stz $DE05
+    lda \memAddrSrc
+    sta $DE06
+    stz $DE07
+    lda $DE16
+    sta \memAddrTarget
+.endmacro
+
 mul8x8BitCoproc .macro oper1, oper2, oper3
     lda \oper1
     sta $DE00

@@ -32,6 +32,32 @@ snake_t .struct
 GAME .dstruct snake_t
 
 
+toScreenX .macro memAddr
+    lda \memAddr
+    clc
+    adc #OFFSET_X
+.endmacro
+
+
+toScreenY .macro memAddr
+    lda \memAddr
+    clc
+    adc #OFFSET_Y
+.endmacro
+
+
+toScreenXCoord .macro memAddr
+    #toScreenX \memAddr
+    sta \memAddr
+.endmacro
+
+
+toScreenYCoord .macro memAddr
+    #toScreenY \memAddr
+    sta \memAddr
+.endmacro
+
+
 init 
     lda GAME.speed
     sta TIMER_SPEED
@@ -307,18 +333,31 @@ _finished
     rts
 
 
+REMAINDER_X .byte 0
+REMAINDER_Y .byte 0
+CANDIDATE_X .byte 0
+CANDIDATE_Y .byte 0
 spawnFood
     lda GAME.spawnFood
     beq _done
     
-    ldx #15
-    lda #5
+    jsr random.get
+    sta CANDIDATE_X
+    stx CANDIDATE_Y
+    #mod8x8Immediate SCREEN_X, CANDIDATE_X, REMAINDER_X
+    #mod8x8Immediate SCREEN_Y, CANDIDATE_Y, REMAINDER_Y
+
+    #toScreenXCoord REMAINDER_X
+    #toScreenYCoord REMAINDER_Y
+
+    ldx REMAINDER_X
+    lda REMAINDER_Y
     jsr txtio.peekChar
     cmp #$20
     bne _done
 
-    ldx #15
-    ldy #5
+    ldx REMAINDER_X
+    ldy REMAINDER_Y
     lda #FOOD_CHAR
     jsr txtio.pokeChar
     
@@ -329,13 +368,9 @@ _done
 
 
 checkFood
-    clc
-    lda GAME.xPos
-    adc #OFFSET_X
+    #toScreenX GAME.xPos
     tax
-    lda GAME.yPos
-    clc
-    adc #OFFSET_Y
+    #toScreenY GAME.yPos
     jsr txtio.peekChar
     cmp #FOOD_CHAR
     beq _eaten
