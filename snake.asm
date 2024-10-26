@@ -24,11 +24,14 @@ BODY_CHAR  = 215
 FOOD_CHAR  = 255
 BACKGROUND_CHAR = 200
 
+SPEED_F256_K = 11
+SPEED_F256_JR = 18
+
 snake_t .struct
     xPos      .byte OFFSET_X
     yPos      .byte OFFSET_Y
     direction .byte 0
-    speed     .byte 12
+    speed     .byte SPEED_F256_JR
     state     .byte STATE_WAITING
     spawnFood .byte BOOL_TRUE
     points    .word 0

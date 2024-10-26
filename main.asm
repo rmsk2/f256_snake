@@ -30,6 +30,15 @@ TXT_END   .text "GAME OVER. PRESS F1 TO PLAY AGAIN."
 
 main
     jsr setupMMU
+    lda #snake.SPEED_F256_K
+    sta snake.GAME.speed
+    ; check machine id
+    lda $D6A7
+    cmp #$02
+    bne _defaultSpeed
+    lda #snake.SPEED_F256_JR
+    sta snake.GAME.speed
+_defaultSpeed
     jsr clut.init
     jsr font.init
     jsr initEvents
