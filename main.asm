@@ -30,12 +30,14 @@ TXT_END   .text "GAME OVER. PRESS F1 TO PLAY AGAIN."
 
 main
     jsr setupMMU
+    ; set speed for K
     lda #snake.SPEED_F256_K
     sta snake.GAME.speed
-    ; check machine id
+    ; check machine id. The Jr. seems to run a bit faster.
     lda $D6A7
     cmp #$02
     bne _defaultSpeed
+    ; Jr. was detected => modify speed
     lda #snake.SPEED_F256_JR
     sta snake.GAME.speed
 _defaultSpeed
