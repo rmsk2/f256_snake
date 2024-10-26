@@ -1,8 +1,8 @@
-SCREEN_X = 30
-SCREEN_Y = 20
+SCREEN_X = 32
+SCREEN_Y = 25
 
-OFFSET_X = 15
-OFFSET_Y = 5
+OFFSET_X = 4
+OFFSET_Y = 1
 
 snake .namespace
 
@@ -62,7 +62,7 @@ toScreenYCoord .macro memAddr
 init 
     lda GAME.speed
     sta TIMER_SPEED
-    jsr txtio.init80x60
+    jsr txtio.init40x30
     lda #TXT_GREEN
     sta CURSOR_STATE.col 
     jsr txtio.clear
@@ -95,6 +95,9 @@ init
     sta GAME.yPos
     lda #SCREEN_X/2 + 4
     sta GAME.xPos
+
+    #load16BitImmediate 0, GAME.points
+    jsr drawPoints
 
     lda #RIGHT
     sta GAME.direction
@@ -263,6 +266,8 @@ checkEnd
     bne _notEnd
     lda #snake.STATE_WAITING
     sta snake.GAME.state
+    #locate 3, 27
+    #printString TXT_END, len(TXT_END)
     clc
     rts
 _notEnd
@@ -364,9 +369,18 @@ checkFood
     clc
     rts
 _eaten
+    #inc16Bit GAME.points
+    jsr drawPoints
     lda #BOOL_TRUE
     sta GAME.spawnFood
     sec
+    rts
+
+
+drawPoints
+    #locate 0, 0
+    #move16Bit GAME.points, txtio.WORD_TEMP
+    jsr txtio.printWordDecimal
     rts
 
 .endnamespace

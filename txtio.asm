@@ -316,35 +316,6 @@ cursorSet
     rts    
 
 
-
-; plot
-;     sta CURSOR_STATE.nextChar
-
-;     #saveIoState    
-;     #move16Bit CURSOR_STATE.videoRamPtr, TXT_PTR1    
-;     #toTxtMatrix
-;     ; store character to print in video RAM
-;     lda CURSOR_STATE.nextChar
-;     sta (TXT_PTR1)
-;     #toColorMatrix
-;     ; set color of printed character in video RAM
-;     lda CURSOR_STATE.col
-;     sta (TXT_PTR1)    
-;     #restoreIoState
-;     rts
-
-
-; getChar
-;     #saveIoState    
-;     #move16Bit CURSOR_STATE.videoRamPtr, TXT_PTR1    
-;     #toTxtMatrix
-;     lda (TXT_PTR1)
-;     pha
-;     #restoreIoState
-;     pla
-;     rts
-
-
 getScreenPtr
     lda CURSOR_STATE.xMax
     sta $DE00

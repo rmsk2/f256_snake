@@ -24,6 +24,9 @@ ASCII_DOWN = 14
 ASCII_LEFT = 2
 ASCII_RIGHT = 6
 
+TXT_START .text "Press F1 to play. F3 to exit."
+TXT_END   .text "GAME OVER. Press F1 to play again."
+
 main
     jsr setupMMU
     jsr clut.init
@@ -38,6 +41,8 @@ main
     jsr setTimerAnimation
 _restart
     jsr snake.init
+    #locate 5, 27
+    #printString TXT_START, len(TXT_START)
     jsr simpleKeyEventLoop
 
     lda snake.GAME.state
