@@ -28,7 +28,7 @@ snake_t .struct
     xPos      .byte OFFSET_X
     yPos      .byte OFFSET_Y
     direction .byte 0
-    speed     .byte 10
+    speed     .byte 12
     state     .byte STATE_WAITING
     spawnFood .byte BOOL_TRUE
     points    .word 0
