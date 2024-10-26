@@ -29,6 +29,46 @@ init
     lda #snake.BACKGROUND_CHAR
     jsr modifyCharacter
 
+    #load16BitImmediate dataChar0, FONT_PTR1
+    lda #$30
+    jsr modifyCharacter
+
+    #load16BitImmediate dataChar1, FONT_PTR1
+    lda #$31
+    jsr modifyCharacter
+
+    #load16BitImmediate dataChar2, FONT_PTR1
+    lda #$32
+    jsr modifyCharacter
+
+    #load16BitImmediate dataChar3, FONT_PTR1
+    lda #$33
+    jsr modifyCharacter
+
+    #load16BitImmediate dataChar4, FONT_PTR1
+    lda #$34
+    jsr modifyCharacter
+
+    #load16BitImmediate dataChar5, FONT_PTR1
+    lda #$35
+    jsr modifyCharacter
+
+    #load16BitImmediate dataChar6, FONT_PTR1
+    lda #$36
+    jsr modifyCharacter
+
+    #load16BitImmediate dataChar7, FONT_PTR1
+    lda #$37
+    jsr modifyCharacter
+
+    #load16BitImmediate dataChar8, FONT_PTR1
+    lda #$38
+    jsr modifyCharacter
+
+    #load16BitImmediate dataChar9, FONT_PTR1
+    lda #$39
+    jsr modifyCharacter
+
     rts
 
 
@@ -128,4 +168,104 @@ GRASS
     .byte %10001000
     .byte %01000000
     .byte %01000000
+
+dataChar0
+    .byte %01111110
+    .byte %01000010
+    .byte %01000010
+    .byte %01000010
+    .byte %01000110
+    .byte %01000110
+    .byte %01111110
+    .byte %00000000
+
+dataChar1
+    .byte %00011000
+    .byte %00001000
+    .byte %00001000
+    .byte %00001000
+    .byte %00001000
+    .byte %00001000
+    .byte %00001000
+    .byte %00000000
+
+dataChar2
+    .byte %01111110
+    .byte %00000010
+    .byte %00000010
+    .byte %01111110
+    .byte %01000000
+    .byte %01100000
+    .byte %01111110
+    .byte %00000000
+
+dataChar3
+    .byte %01111110
+    .byte %00000010
+    .byte %00000010
+    .byte %01111110
+    .byte %00000010
+    .byte %00000110
+    .byte %01111110
+    .byte %00000000
+
+dataChar4
+    .byte %01000010
+    .byte %01000010
+    .byte %01100010
+    .byte %01111110
+    .byte %00000010
+    .byte %00000010
+    .byte %00000010
+    .byte %00000000
+
+dataChar5
+    .byte %01111110
+    .byte %01000000
+    .byte %01000000
+    .byte %01111110
+    .byte %00000010
+    .byte %00000110
+    .byte %01111110
+    .byte %00000000
+
+dataChar6
+    .byte %01000000
+    .byte %01000000
+    .byte %01000000
+    .byte %01111110
+    .byte %01000010
+    .byte %01000110
+    .byte %01111110
+    .byte %00000000
+
+dataChar7
+    .byte %01111110
+    .byte %00000110
+    .byte %00000010
+    .byte %00000010
+    .byte %00000010
+    .byte %00000010
+    .byte %00000010
+    .byte %00000000
+
+dataChar8
+    .byte %01111110
+    .byte %01000010
+    .byte %01000010
+    .byte %01111110
+    .byte %01000010
+    .byte %01000110
+    .byte %01111110
+    .byte %00000000
+
+dataChar9
+    .byte %01111110
+    .byte %01000010
+    .byte %01100010
+    .byte %01111110
+    .byte %00000010
+    .byte %00000010
+    .byte %00000010
+    .byte %00000000    
 .endnamespace

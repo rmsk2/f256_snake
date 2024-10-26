@@ -421,7 +421,7 @@ _eaten
 
 
 drawPoints
-    #locate 0, 0
+    #locate 0, 1
     #move16Bit GAME.points, txtio.WORD_TEMP
     jsr txtio.printWordDecimal
     rts

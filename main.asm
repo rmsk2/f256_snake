@@ -25,8 +25,8 @@ ASCII_DOWN = 14
 ASCII_LEFT = 2
 ASCII_RIGHT = 6
 
-TXT_START .text "Press F1 to play. F3 to exit."
-TXT_END   .text "GAME OVER. Press F1 to play again."
+TXT_START .text "PRESS F1 TO PLAY. F3 TO EXIT."
+TXT_END   .text "GAME OVER. PRESS F1 TO PLAY AGAIN."
 
 main
     jsr setupMMU
