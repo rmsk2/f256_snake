@@ -16,10 +16,13 @@ STATE_RESTART = 7                    ; Restart game
 STATE_GAME = 6                       ; During game
 STATE_WAITING = 8                    ; Waiting for restart or quit
 
-HEAD_CHAR = 214
-BODY_CHAR = 215
-FOOD_CHAR = 255
-BACKGROUND_CHAR = $20
+HEAD_RIGHT = 212
+HEAD_LEFT  = 213
+HEAD_UP    = 211
+HEAD_DOWN  = 210
+BODY_CHAR  = 215
+FOOD_CHAR  = 255
+BACKGROUND_CHAR = 200
 
 snake_t .struct
     xPos      .byte OFFSET_X
@@ -83,11 +86,14 @@ init
     sta txtdraw.RECT_PARAMS.lenx
     lda #SCREEN_Y
     sta txtdraw.RECT_PARAMS.leny
-    lda CURSOR_STATE.col
+    lda #TXT_GREEN | TXT_GRAY << 4
     sta txtdraw.RECT_PARAMS.col
     lda #BOOL_TRUE
     sta txtdraw.RECT_PARAMS.overwrite
     jsr txtdraw.drawRect
+
+    lda #RIGHT
+    sta GAME.direction
 
     jsr data.init
     jsr renderInitialQueue
@@ -99,9 +105,6 @@ init
 
     #load16BitImmediate 0, GAME.points
     jsr drawPoints
-
-    lda #RIGHT
-    sta GAME.direction
 
     lda #BOOL_TRUE
     sta GAME.spawnFood
@@ -163,8 +166,24 @@ plotHeadCurrent
 plotHead
     lda #TXT_GREEN
     sta PLOT_TEMP_COL
-    lda #HEAD_CHAR
-    bra plot
+    lda GAME.direction
+    cmp #RIGHT
+    bne _left
+    lda #HEAD_RIGHT
+    jmp plot
+_left
+    cmp #LEFT
+    bne _up
+    lda #HEAD_LEFT
+    jmp plot
+_up 
+    cmp #UP
+    bne _down
+    lda #HEAD_UP
+    jmp plot
+_down
+    lda #HEAD_DOWN
+    jmp plot
 
 
 plotBody
@@ -180,7 +199,7 @@ testBody
 
 
 plotBackground
-    lda #TXT_GREEN
+    lda #TXT_GREEN | TXT_GRAY << 4
     sta PLOT_TEMP_COL
     lda #BACKGROUND_CHAR
     jmp plot

@@ -2,8 +2,33 @@ font .namespace
 
 init
     #load16BitImmediate APPLE, FONT_PTR1
-    lda #255
+    lda #snake.FOOD_CHAR
     jsr modifyCharacter
+
+    #load16BitImmediate CT_SEGMENT, FONT_PTR1
+    lda #snake.BODY_CHAR
+    jsr modifyCharacter
+
+    #load16BitImmediate HEAD_RIGHT, FONT_PTR1
+    lda #snake.HEAD_RIGHT
+    jsr modifyCharacter
+
+    #load16BitImmediate HEAD_LEFT, FONT_PTR1
+    lda #snake.HEAD_LEFT
+    jsr modifyCharacter
+
+    #load16BitImmediate HEAD_DOWN, FONT_PTR1
+    lda #snake.HEAD_DOWN
+    jsr modifyCharacter
+
+    #load16BitImmediate HEAD_UP, FONT_PTR1
+    lda #snake.HEAD_UP
+    jsr modifyCharacter
+
+    #load16BitImmediate GRASS, FONT_PTR1
+    lda #snake.BACKGROUND_CHAR
+    jsr modifyCharacter
+
     rts
 
 
@@ -43,4 +68,64 @@ APPLE
     .byte %01111111
     .byte %01111111
     .byte %00111110
+
+CT_SEGMENT
+    .byte %01111110
+    .byte %10000001
+    .byte %10100001
+    .byte %10100001
+    .byte %10000101
+    .byte %10000101    
+    .byte %10000001
+    .byte %01111110
+
+HEAD_RIGHT
+    .byte %11001110
+    .byte %11111001
+    .byte %11111100
+    .byte %11111100
+    .byte %11111100
+    .byte %11111100
+    .byte %11111001
+    .byte %11001110
+
+HEAD_LEFT
+    .byte %01110011
+    .byte %10011111
+    .byte %00111111
+    .byte %00111111    
+    .byte %00111111
+    .byte %00111111
+    .byte %10011111
+    .byte %01110011
+
+HEAD_UP
+    .byte %01000010
+    .byte %10000001
+    .byte %10111101
+    .byte %11111111
+    .byte %01111110
+    .byte %01111110
+    .byte %11111111
+    .byte %11111111
+
+HEAD_DOWN
+    .byte %11111111
+    .byte %11111111
+    .byte %01111110
+    .byte %01111110
+    .byte %11111111
+    .byte %10111101
+    .byte %10000001
+    .byte %01000010
+
+GRASS
+    .byte 0
+    .byte 0
+    .byte %00000100
+    .byte %00101000
+    .byte %00011000
+    .byte %10001000
+    .byte %01000000
+    .byte %01000000
 .endnamespace

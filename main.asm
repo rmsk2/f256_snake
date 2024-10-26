@@ -13,9 +13,9 @@ jmp main
 .include "txtio.asm"
 .include "txtdraw.asm"
 .include "random.asm"
-.include "font.asm"
 .include "data.asm"
 .include "snake.asm"
+.include "font.asm"
 
 
 ASCII_F1 = 129
