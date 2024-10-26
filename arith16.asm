@@ -194,6 +194,7 @@ mod8x8Immediate .macro modulus, memAddrSrc, memAddrTarget
     sta \memAddrTarget
 .endmacro
 
+
 mul8x8BitCoproc .macro oper1, oper2, oper3
     lda \oper1
     sta $DE00

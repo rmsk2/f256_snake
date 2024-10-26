@@ -13,6 +13,7 @@ jmp main
 .include "txtio.asm"
 .include "txtdraw.asm"
 .include "random.asm"
+.include "font.asm"
 .include "data.asm"
 .include "snake.asm"
 
@@ -30,6 +31,7 @@ TXT_END   .text "GAME OVER. Press F1 to play again."
 main
     jsr setupMMU
     jsr clut.init
+    jsr font.init
     jsr initEvents
     jsr random.init
 
