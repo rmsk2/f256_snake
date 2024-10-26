@@ -240,7 +240,7 @@ dataChar6
     .byte %00000000
 
 dataChar7
-    .byte %01111110
+    .byte %00011110
     .byte %00000110
     .byte %00000010
     .byte %00000010

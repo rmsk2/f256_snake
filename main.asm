@@ -105,7 +105,17 @@ _done
     rts
 
 
+lockState
+    lda #BOOL_TRUE
+    sta snake.GAME.locked
+    rts
+
+
 processJoystick
+    ldy snake.GAME.locked
+    beq _notLocked
+    rts
+_notLocked
     tax
     and #snake.UP
     beq _down
@@ -114,7 +124,7 @@ processJoystick
     beq _illegalUp
     lda #snake.UP
     sta snake.GAME.direction
-    jsr snake.processUserInput
+    jsr lockState
 _illegalUp
     rts
 _down
@@ -126,7 +136,7 @@ _down
     beq _illegalDown
     lda #snake.DOWN
     sta snake.GAME.direction
-    jsr snake.processUserInput
+    jsr lockState
 _illegalDown    
     rts
 _left
@@ -138,7 +148,7 @@ _left
     beq _illegalLeft
     lda #snake.LEFT
     sta snake.GAME.direction
-    jsr snake.processUserInput
+    jsr lockState
 _illegalLeft    
     rts
 _right
@@ -150,7 +160,7 @@ _right
     beq _done
     lda #snake.RIGHT
     sta snake.GAME.direction
-    jsr snake.processUserInput
+    jsr lockState
 _done
     rts
 
@@ -159,6 +169,8 @@ processTimerEvent
     jsr snake.processUserInput
     jsr snake.spawnFood
     jsr setTimerAnimation
+    lda #BOOL_FALSE
+    sta snake.GAME.locked
     rts
 
 

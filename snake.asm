@@ -32,6 +32,7 @@ snake_t .struct
     state     .byte STATE_WAITING
     spawnFood .byte BOOL_TRUE
     points    .word 0
+    locked    .byte BOOL_FALSE
 .endstruct
 
 GAME .dstruct snake_t
@@ -66,6 +67,8 @@ toScreenYCoord .macro memAddr
 init 
     lda GAME.speed
     sta TIMER_SPEED
+    lda #BOOL_FALSE
+    sta GAME.locked
     jsr txtio.init40x30
     lda #TXT_GREEN
     sta CURSOR_STATE.col 

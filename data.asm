@@ -16,7 +16,8 @@ entry_t .struct
 data .namespace 
 
 MAX_ENTRIES = 4096
-QUEUE .fill MAX_ENTRIES * size(entry_t)
+;QUEUE .fill MAX_ENTRIES * size(entry_t)
+QUEUE = $8000
 MASK = %0000111111111111
 
 state_t .struct 
