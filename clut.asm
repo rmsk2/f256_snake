@@ -19,6 +19,7 @@ TXT_WHITE = 1
 TXT_BLUE = 2
 TXT_GREEN = 3
 TXT_AMBER = 4
+TXT_RED = 5
 
 clut .namespace
 
@@ -60,6 +61,7 @@ init
     #setTxtColInt TXT_BLUE,   $00, $00, $FF, $FF
     #setTxtColInt TXT_GREEN,  $00, $FF, $00, $FF
     #setTxtColInt TXT_AMBER,  $FA, $63, $05, $FF
+    #setTxtColInt TXT_RED,    $FA, $00, $00, $FF
 
     #restoreIo
     rts

@@ -19,6 +19,7 @@ STATE_WAITING = 8                    ; Waiting for restart or quit
 HEAD_CHAR = 214
 BODY_CHAR = 215
 FOOD_CHAR = 255
+BACKGROUND_CHAR = $20
 
 snake_t .struct
     xPos      .byte OFFSET_X
@@ -160,13 +161,48 @@ plotHeadCurrent
     ldx GAME.xPos
     ldy GAME.yPos
 plotHead
+    lda #TXT_GREEN
+    sta PLOT_TEMP_COL
     lda #HEAD_CHAR
     bra plot
 
 
 plotBody
+    lda #TXT_GREEN
+    sta PLOT_TEMP_COL
     lda #BODY_CHAR
-    bra plot
+    jmp plot
+
+
+testBody
+    cmp #BODY_CHAR
+    rts
+
+
+plotBackground
+    lda #TXT_GREEN
+    sta PLOT_TEMP_COL
+    lda #BACKGROUND_CHAR
+    jmp plot
+
+
+testBackground
+    cmp #BACKGROUND_CHAR
+    rts
+
+
+plotFood
+    lda #TXT_GREEN | TXT_RED << 4
+    sta PLOT_TEMP_COL
+    lda #FOOD_CHAR
+    jmp plot
+
+
+; does not make much sense at the moment. Maybe
+; we have several food items in the future
+testFood
+    cmp #FOOD_CHAR
+    rts
 
 
 PLOT_TEMP_CHAR .byte 0
@@ -185,21 +221,13 @@ plot
     lda PLOT_TEMP_CHAR
 
     jsr txtio.pokeChar
-    rts
-
-
-plotCol
-    sta PLOT_TEMP_COL
-    stx PLOT_TEMP_X
-    sty PLOT_TEMP_Y
-    #toScreenXCoord PLOT_TEMP_X
-    #toScreenYCoord PLOT_TEMP_Y
 
     ldx PLOT_TEMP_X
     ldy PLOT_TEMP_Y
     lda PLOT_TEMP_COL
 
     jsr txtio.pokeColor
+
     rts
 
 
@@ -241,8 +269,7 @@ deleteLast
     jsr data.popBack
     ldx data.WORK_ENTRY.xPos
     ldy data.WORK_ENTRY.yPos
-    lda #$20
-    jsr plot
+    jsr plotBackground
     rts
 
 
@@ -262,7 +289,7 @@ checkEnd
     tax
     #toScreenY GAME.yPos
     jsr txtio.peekChar
-    cmp #BODY_CHAR
+    jsr testBody
     bne _notEnd
     lda #snake.STATE_WAITING
     sta snake.GAME.state
@@ -339,19 +366,16 @@ spawnFood
     #mod8x8Immediate SCREEN_X, CANDIDATE_X, REMAINDER_X
     #mod8x8Immediate SCREEN_Y, CANDIDATE_Y, REMAINDER_Y
 
-    #toScreenXCoord REMAINDER_X
-    #toScreenYCoord REMAINDER_Y
-
-    ldx REMAINDER_X
-    lda REMAINDER_Y
+    #toScreenX REMAINDER_X
+    tax
+    #toScreenY REMAINDER_Y
     jsr txtio.peekChar
-    cmp #$20
+    jsr testBackground
     bne _done
 
     ldx REMAINDER_X
     ldy REMAINDER_Y
-    lda #FOOD_CHAR
-    jsr txtio.pokeChar
+    jsr plotFood
     
     lda #BOOL_FALSE
     sta GAME.spawnFood
@@ -364,7 +388,7 @@ checkFood
     tax
     #toScreenY GAME.yPos
     jsr txtio.peekChar
-    cmp #FOOD_CHAR
+    jsr testFood
     beq _eaten
     clc
     rts
