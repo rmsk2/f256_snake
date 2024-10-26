@@ -84,12 +84,17 @@ init
     sta txtdraw.RECT_PARAMS.leny
     lda CURSOR_STATE.col
     sta txtdraw.RECT_PARAMS.col
-    lda #1
+    lda #BOOL_TRUE
     sta txtdraw.RECT_PARAMS.overwrite
     jsr txtdraw.drawRect
 
     jsr data.init
     jsr renderInitialQueue
+
+    lda #SCREEN_Y/2
+    sta GAME.yPos
+    lda #SCREEN_X/2 + 4
+    sta GAME.xPos
 
     lda #RIGHT
     sta GAME.direction
@@ -97,19 +102,6 @@ init
     lda #BOOL_TRUE
     sta GAME.spawnFood
 
-    rts
-
-
-crsrSet 
-    lda GAME.xPos
-    clc
-    adc #OFFSET_X
-    sta CURSOR_STATE.xPos
-    lda GAME.yPos
-    clc
-    adc #OFFSET_Y
-    sta CURSOR_STATE.yPos
-    jsr txtio.cursorSet
     rts
 
 
@@ -122,7 +114,6 @@ _wrapAround
     lda #SCREEN_X-1
     sta GAME.xPos
 _set
-    jsr crsrSet
     rts
 
 
@@ -135,7 +126,6 @@ execRight
 _wrapAround
     stz GAME.xPos
 _set 
-    jsr crsrSet
     rts
 
 
@@ -148,7 +138,6 @@ _wrapAround
     lda #SCREEN_Y-1
     sta GAME.yPos
 _set
-    jsr crsrSet
     rts
 
 
@@ -161,54 +150,65 @@ execDown
 _wrapAround
     stz GAME.yPos
 _set 
-    jsr crsrSet
     rts
 
 
+plotHeadCurrent
+    ldx GAME.xPos
+    ldy GAME.yPos
 plotHead
     lda #HEAD_CHAR
-    jsr txtio.plot
-    rts
+    bra plot
 
 
 plotBody
     lda #BODY_CHAR
-    jsr txtio.plot
+    bra plot
+
+
+PLOT_TEMP_CHAR .byte 0
+PLOT_TEMP_COL  .byte 0
+PLOT_TEMP_X    .byte 0
+PLOT_TEMP_Y    .byte 0
+plot
+    sta PLOT_TEMP_CHAR
+    stx PLOT_TEMP_X
+    sty PLOT_TEMP_Y
+    #toScreenXCoord PLOT_TEMP_X
+    #toScreenYCoord PLOT_TEMP_Y
+
+    ldx PLOT_TEMP_X
+    ldy PLOT_TEMP_Y
+    lda PLOT_TEMP_CHAR
+
+    jsr txtio.pokeChar
+    rts
+
+
+plotCol
+    sta PLOT_TEMP_COL
+    stx PLOT_TEMP_X
+    sty PLOT_TEMP_Y
+    #toScreenXCoord PLOT_TEMP_X
+    #toScreenYCoord PLOT_TEMP_Y
+
+    ldx PLOT_TEMP_X
+    ldy PLOT_TEMP_Y
+    lda PLOT_TEMP_COL
+
+    jsr txtio.pokeColor
     rts
 
 
 changeHeadIntoBody
-    lda GAME.xPos
-    sta X_TEMP
-    lda GAME.yPos
-    sta Y_TEMP
-
-    lda LAST_POS.xPos
-    sta GAME.xPos
-    lda LAST_POS.yPos
-    sta GAME.yPos
-    jsr crsrSet
-
-    lda #BODY_CHAR
-    jsr txtio.plot
-
-    lda X_TEMP
-    sta GAME.xPos
-    lda Y_TEMP
-    sta GAME.yPos
-    jsr crsrSet
-
+    ldx LAST_POS.xPos
+    ldy LAST_POS.yPos
+    jsr plotBody
     rts
 
 
 COUNT .byte 0
-renderInitialQueue
-    lda #SCREEN_X/2
-    sta GAME.xPos
-    lda #SCREEN_Y/2
-    sta GAME.yPos
-    jsr crsrSet
-
+renderInitialQueue    
     stz COUNT    
 _loop
     lda COUNT
@@ -218,11 +218,8 @@ _loop
     jsr data.calcMemPos
     jsr data.readWorkEntry
 
-    lda data.WORK_ENTRY.xPos
-    sta GAME.xPos
-    lda data.WORK_ENTRY.yPos
-    sta GAME.yPos
-    jsr crsrSet
+    ldx data.WORK_ENTRY.xPos
+    ldy data.WORK_ENTRY.yPos    
     jsr plotBody
     
     inc COUNT
@@ -230,35 +227,21 @@ _loop
     cmp data.STATE.len
     bne _loop
 
+    ldx data.WORK_ENTRY.xPos
+    ldy data.WORK_ENTRY.yPos
     jsr plotHead
 
     rts
 
 
-X_TEMP .byte 0
-Y_TEMP .byte 0
 deleteLast
-    lda GAME.xPos
-    sta X_TEMP
-    lda GAME.yPos
-    sta Y_TEMP
-
     jsr data.popBack
-    lda data.WORK_ENTRY.xPos
-    sta GAME.xPos
-    lda data.WORK_ENTRY.yPos
-    sta GAME.yPos
-    jsr crsrSet
-
+    ldx data.WORK_ENTRY.xPos
+    ldy data.WORK_ENTRY.yPos
     lda #$20
-    jsr txtio.plot
-
-    lda X_TEMP
-    sta GAME.xPos
-    lda Y_TEMP
-    sta GAME.yPos
-    jsr crsrSet
+    jsr plot
     rts
+
 
 pushPos
     lda GAME.xPos
@@ -272,7 +255,10 @@ pushPos
 ; carry set if game can continue, else carry clear
 TEMP_CHAR .byte 0
 checkEnd
-    jsr txtio.getChar
+    #toScreenX GAME.xPos    
+    tax
+    #toScreenY GAME.yPos
+    jsr txtio.peekChar
     cmp #BODY_CHAR
     bne _notEnd
     lda #snake.STATE_WAITING
@@ -329,7 +315,7 @@ _done
     jsr deleteLast
 _foodEaten    
     jsr changeHeadIntoBody
-    jsr plotHead
+    jsr plotHeadCurrent
 _finished
     rts
 

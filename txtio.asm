@@ -317,32 +317,32 @@ cursorSet
 
 
 
-plot
-    sta CURSOR_STATE.nextChar
+; plot
+;     sta CURSOR_STATE.nextChar
 
-    #saveIoState    
-    #move16Bit CURSOR_STATE.videoRamPtr, TXT_PTR1    
-    #toTxtMatrix
-    ; store character to print in video RAM
-    lda CURSOR_STATE.nextChar
-    sta (TXT_PTR1)
-    #toColorMatrix
-    ; set color of printed character in video RAM
-    lda CURSOR_STATE.col
-    sta (TXT_PTR1)    
-    #restoreIoState
-    rts
+;     #saveIoState    
+;     #move16Bit CURSOR_STATE.videoRamPtr, TXT_PTR1    
+;     #toTxtMatrix
+;     ; store character to print in video RAM
+;     lda CURSOR_STATE.nextChar
+;     sta (TXT_PTR1)
+;     #toColorMatrix
+;     ; set color of printed character in video RAM
+;     lda CURSOR_STATE.col
+;     sta (TXT_PTR1)    
+;     #restoreIoState
+;     rts
 
 
-getChar
-    #saveIoState    
-    #move16Bit CURSOR_STATE.videoRamPtr, TXT_PTR1    
-    #toTxtMatrix
-    lda (TXT_PTR1)
-    pha
-    #restoreIoState
-    pla
-    rts
+; getChar
+;     #saveIoState    
+;     #move16Bit CURSOR_STATE.videoRamPtr, TXT_PTR1    
+;     #toTxtMatrix
+;     lda (TXT_PTR1)
+;     pha
+;     #restoreIoState
+;     pla
+;     rts
 
 
 getScreenPtr
@@ -402,6 +402,19 @@ pokeChar
     sta (TXT_PTR1)
     #restoreIoState
     rts
+
+
+pokeColor
+    sta DATA_TEMP
+    stx TEMP_X
+    sty TEMP_Y
+    jsr getScreenPtr
+    #saveIoState    
+    #toColorMatrix
+    lda DATA_TEMP
+    sta (TXT_PTR1)
+    #restoreIoState
+    rts    
 
 
 ; --------------------------------------------------
