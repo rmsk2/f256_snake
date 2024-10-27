@@ -17,9 +17,12 @@ _loop
     ldy #ModChar_t.code
     lda (FONT_PTR3), y
     jsr modifyCharacter
-    #double16Bit OFFSET
-    #double16Bit OFFSET
     inc COUNT
+    lda COUNT
+    sta OFFSET
+    stz OFFSET + 1
+    #double16Bit OFFSET
+    #double16Bit OFFSET
     lda COUNT
     cmp #NUM_CHANGED_CHARS
     bne _loop
@@ -32,7 +35,7 @@ ModChar_t .struct charCode, memAddr
     reserve .byte 0
 .endstruct
 
-NUM_CHANGED_CHARS = 17
+NUM_CHANGED_CHARS = 8
 
 CHANGED_CHARS
 C1   .dstruct ModChar_t, snake.FOOD_CHAR, APPLE
@@ -42,6 +45,7 @@ C4   .dstruct ModChar_t, snake.HEAD_LEFT, HEAD_LEFT
 C5   .dstruct ModChar_t, snake.HEAD_UP, HEAD_UP
 C6   .dstruct ModChar_t, snake.HEAD_DOWN, HEAD_DOWN 
 C7   .dstruct ModChar_t, snake.BACKGROUND_CHAR, GRASS
+C18  .dstruct ModChar_t, snake.OBSTACLE_CHAR, OBSTACLE
 C8   .dstruct ModChar_t, $30, dataChar0
 C9   .dstruct ModChar_t, $31, dataChar1
 C10  .dstruct ModChar_t, $32, dataChar2
@@ -52,6 +56,7 @@ C14  .dstruct ModChar_t, $36, dataChar6
 C15  .dstruct ModChar_t, $37, dataChar7
 C16  .dstruct ModChar_t, $38, dataChar8
 C17  .dstruct ModChar_t, $39, dataChar9
+
 
 
 TEMP_INDEX .word 0
@@ -150,6 +155,16 @@ GRASS
     .byte %10001000
     .byte %01000000
     .byte %01000000
+
+OBSTACLE
+    .byte $0
+    .byte %00011100
+    .byte %00100010
+    .byte %01001001
+    .byte %01011101
+    .byte %01001001
+    .byte %01001001
+    .byte %01111111
 
 dataChar0
     .byte %01111110

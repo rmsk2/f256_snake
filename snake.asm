@@ -4,6 +4,8 @@ SCREEN_Y = 25
 OFFSET_X = 4
 OFFSET_Y = 1
 
+.include "level.asm"
+
 snake .namespace
 
 UP    = 1
@@ -23,6 +25,7 @@ HEAD_DOWN  = 210
 BODY_CHAR  = 215
 FOOD_CHAR  = 255
 BACKGROUND_CHAR = 200
+OBSTACLE_CHAR = 0
 
 SPEED_F256_K = 12
 SPEED_F256_JR = 18
@@ -37,6 +40,7 @@ snake_t .struct
     points    .word 0
     locked    .byte BOOL_FALSE
     paused    .byte BOOL_FALSE
+    levelNr   .byte levels.ONE
 .endstruct
 
 GAME .dstruct snake_t
@@ -102,6 +106,9 @@ init
 
     lda #RIGHT
     sta GAME.direction
+
+    lda GAME.levelNr
+    jsr levels.modifyLevel
 
     jsr data.init
     jsr renderInitialQueue
@@ -204,8 +211,11 @@ plotBody
     jmp plot
 
 
-testBody
+testObstacle
     cmp #BODY_CHAR
+    beq _done
+    cmp #OBSTACLE_CHAR
+_done
     rts
 
 
@@ -243,6 +253,7 @@ plot
     sta PLOT_TEMP_CHAR
     stx PLOT_TEMP_X
     sty PLOT_TEMP_Y
+plotInternal
     #toScreenXCoord PLOT_TEMP_X
     #toScreenYCoord PLOT_TEMP_Y
 
@@ -319,7 +330,7 @@ checkEnd
     tax
     #toScreenY GAME.yPos
     jsr txtio.peekChar
-    jsr testBody
+    jsr testObstacle
     bne _notEnd
     lda #snake.STATE_WAITING
     sta snake.GAME.state

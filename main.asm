@@ -1,9 +1,7 @@
 * = $0300
 .cpu "w65c02"
 
-
 jmp main
-
 
 .include "api.asm"
 .include "zeropage.asm"
@@ -18,7 +16,8 @@ jmp main
 .include "font.asm"
 
 
-ASCII_F1 = 129
+ASCII_L1 = $30
+ASCII_LMAX = $32
 ASCII_F3 = 131
 ASCII_UP = 16
 ASCII_DOWN = 14
@@ -26,10 +25,11 @@ ASCII_LEFT = 2
 ASCII_RIGHT = 6
 ASCII_SPACE = $20
 
-TXT_START      .text "PRESS F1 TO PLAY. F3 TO EXIT."
-TXT_END        .text "GAME OVER. PRESS F1 TO PLAY AGAIN."
+TXT_START      .text "PRESS 0-2 TO PLAY. F3 TO EXIT."
+TXT_END        .text "GAME OVER. PRESS 0-2 TO PLAY AGAIN."
 TXT_PAUSED     .text "PAUSED"
 TXT_NOT_PAUSED .text "      "
+TXT_LEVEL      .text "L "
 
 main
     jsr setupMMU
@@ -59,6 +59,12 @@ _restart
     jsr snake.init
     #locate 5, 27
     #printString TXT_START, len(TXT_START)
+    #locate 0, 3
+    printString TXT_LEVEL, len(TXT_LEVEL)
+    lda snake.GAME.levelNr
+    clc
+    adc #$30
+    jsr txtio.charOut
     jsr simpleKeyEventLoop
 
     lda snake.GAME.state
@@ -77,20 +83,8 @@ _quit
 processKeyUpEvent
     rts
 
-
+TEMP_LVL .byte 0
 processKeyEvent
-    cmp #ASCII_F1
-    bne _checkF3
-    lda #snake.STATE_RESTART
-    sta snake.GAME.state
-    bra _done
-_checkF3
-    cmp #ASCII_F3
-    bne _checkCrsr
-    lda #snake.STATE_END
-    sta snake.GAME.state
-    bra _done
-_checkCrsr
     cmp #ASCII_UP
     bne _down
     lda #snake.UP
@@ -107,11 +101,33 @@ _left
     bra _procPress
 _right
     cmp #ASCII_RIGHT
-    bne _pause
+    bne _level
     lda #snake.RIGHT
 _procPress
     jsr processJoystick
     bra _end
+_level
+    cmp #ASCII_L1
+    bcc _checkF3
+    cmp #ASCII_LMAX
+    bcc _calcLevel
+    beq _calcLevel
+    bra _checkF3
+_calcLevel
+    sta TEMP_LVL
+    lda #snake.STATE_RESTART
+    sta snake.GAME.state
+    lda TEMP_LVL
+    sec
+    sbc #$30
+    sta snake.GAME.levelNr
+    bra _done
+_checkF3
+    cmp #ASCII_F3
+    bne _pause
+    lda #snake.STATE_END
+    sta snake.GAME.state
+    bra _done
 _pause
     cmp #ASCII_SPACE
     bne _end
