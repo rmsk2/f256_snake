@@ -33,17 +33,8 @@ TXT_LEVEL      .text "L "
 
 main
     jsr setupMMU
-    ; set speed for K
-    lda #snake.SPEED_F256_K
+    lda #snake.GAME_SPEED
     sta snake.GAME.speed
-    ; check machine id. The Jr. seems to run a bit faster.
-    lda $D6A7
-    cmp #$02
-    bne _defaultSpeed
-    ; Jr. was detected => modify speed
-    lda #snake.SPEED_F256_JR
-    sta snake.GAME.speed
-_defaultSpeed
     jsr clut.init
     jsr font.init
     jsr initEvents
@@ -54,12 +45,18 @@ _defaultSpeed
     #load16BitImmediate processJoystick, JOYSTICK_VECTOR 
     #load16BitImmediate processKeyUpEvent, KEY_UP_VECTOR
 
+    lda snake.GAME.speed
+    sta TIMER_SPEED
     jsr setTimerAnimation
 _restart
     jsr snake.init
     #locate 5, 27
     #printString TXT_START, len(TXT_START)
-    #locate 0, 3
+
+    #locate 0, 1
+    lda #snake.FOOD_CHAR
+    jsr txtio.charOut
+    #locate 0, 5
     printString TXT_LEVEL, len(TXT_LEVEL)
     lda snake.GAME.levelNr
     clc
@@ -222,6 +219,8 @@ _done
 
 
 processTimerEvent
+    cmp TIMER_COOKIE_ANIMATION
+    bne _doNothing
     lda snake.GAME.paused
     bne _restartTimer
     jsr snake.processUserInput
@@ -230,6 +229,7 @@ _restartTimer
     jsr setTimerAnimation
     lda #BOOL_FALSE
     sta snake.GAME.locked
+_doNothing
     rts
 
 

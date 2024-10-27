@@ -27,14 +27,13 @@ FOOD_CHAR  = 255
 BACKGROUND_CHAR = 200
 OBSTACLE_CHAR = 0
 
-SPEED_F256_K = 12
-SPEED_F256_JR = 18
+GAME_SPEED = 12
 
 snake_t .struct
     xPos      .byte OFFSET_X
     yPos      .byte OFFSET_Y
     direction .byte 0
-    speed     .byte SPEED_F256_JR
+    speed     .byte GAME_SPEED
     state     .byte STATE_WAITING
     spawnFood .byte BOOL_TRUE
     points    .word 0
@@ -73,8 +72,6 @@ toScreenYCoord .macro memAddr
 
 
 init 
-    lda GAME.speed
-    sta TIMER_SPEED
     lda #BOOL_FALSE
     sta GAME.locked
     sta GAME.paused
@@ -443,7 +440,7 @@ _eaten
 
 
 drawPoints
-    #locate 0, 1
+    #locate 0, 3
     #move16Bit GAME.points, txtio.WORD_TEMP
     jsr txtio.printWordDecimal
     rts

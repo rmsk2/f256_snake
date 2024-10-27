@@ -194,7 +194,7 @@ kGetTimeStamp
 
 
 TIMER_SPEED .byte 0
-TIMER_COOKIE_ANIMATION .byte 0
+TIMER_COOKIE_ANIMATION .byte 28
 setTimerAnimation 
     #setTimerHelp kernel.args.timer.FRAMES, TIMER_SPEED, TIMER_COOKIE_ANIMATION
     rts
