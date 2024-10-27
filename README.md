@@ -2,7 +2,7 @@
 A simple snake clone for the Foenix 256 line of modern retro computers which was developed 
 during the October 2024 game jam on the Foenix retro systems discord server. 
 
-The game idea is simple and well knwown: A caterpillar wants to eat apples, which appear at
+The game idea is simple and well known: A caterpillar wants to eat apples, which appear at
 random locations on the playfield. Unfortunately for each apple it consumes it grows longer. The 
 caterpillar must not collide with itself or with the gravestones which can be found on some 
 levels. The caterpillar which eats the most apples wins. The number of apples already consumed 
