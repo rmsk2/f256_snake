@@ -1,14 +1,14 @@
 # f256_snake
 A simple snake clone for the Foenix 256 line of modern retro computers which was developed 
-during the october 2024 game jam on the Foenix retro systems discord server. 
+during the October 2024 game jam on the Foenix retro systems discord server. 
 
-The game idea is simple and well knwown: A caterpillar wants to eat apples, which appear at a 
-random locations on the playfield. Unfortunatly for each apple it consumes it grows longer. The 
+The game idea is simple and well knwown: A caterpillar wants to eat apples, which appear at
+random locations on the playfield. Unfortunately for each apple it consumes it grows longer. The 
 caterpillar must not collide with itself or with the gravestones which can be found on some 
 levels. The caterpillar which eats the most apples wins. The number of apples already consumed 
 is shown in the top left corner.
 
-The graveyard has no boundary, i.e. if the caterpillar moves out of the playfield it simply 
+The graveyard has no boundaries, i.e. if the caterpillar moves out of the playfield it simply 
 reappears on the opposite end. 
 
 The game can be controlled with the cursor keys or a joystick in port 0. Whenever you press one
