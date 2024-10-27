@@ -24,9 +24,12 @@ ASCII_UP = 16
 ASCII_DOWN = 14
 ASCII_LEFT = 2
 ASCII_RIGHT = 6
+ASCII_SPACE = $20
 
-TXT_START .text "PRESS F1 TO PLAY. F3 TO EXIT."
-TXT_END   .text "GAME OVER. PRESS F1 TO PLAY AGAIN."
+TXT_START      .text "PRESS F1 TO PLAY. F3 TO EXIT."
+TXT_END        .text "GAME OVER. PRESS F1 TO PLAY AGAIN."
+TXT_PAUSED     .text "PAUSED"
+TXT_NOT_PAUSED .text "      "
 
 main
     jsr setupMMU
@@ -104,15 +107,38 @@ _left
     bra _procPress
 _right
     cmp #ASCII_RIGHT
-    bne _end
+    bne _pause
     lda #snake.RIGHT
 _procPress
     jsr processJoystick
+    bra _end
+_pause
+    cmp #ASCII_SPACE
+    bne _end
+    lda snake.GAME.state
+    cmp #snake.STATE_GAME
+    bne _end
+    lda snake.GAME.paused
+    eor #1
+    sta snake.GAME.paused
+    jsr printPaused
 _end
     sec
     rts    
 _done
     clc
+    rts
+
+
+printPaused
+    #locate 17, 29    
+    lda snake.GAME.paused
+    beq _notPaused
+    #printString TXT_PAUSED, len(TXT_PAUSED)
+    bra _end
+_notPaused
+    #printString TXT_NOT_PAUSED, len(TXT_NOT_PAUSED)
+_end
     rts
 
 
@@ -124,9 +150,12 @@ lockState
 
 processJoystick
     ldy snake.GAME.locked
-    beq _notLocked
+    bne _doNothing
+    ldy snake.GAME.paused
+    beq _continue
+_doNothing
     rts
-_notLocked
+_continue
     tax
     and #snake.UP
     beq _down
@@ -177,8 +206,11 @@ _done
 
 
 processTimerEvent
+    lda snake.GAME.paused
+    bne _restartTimer
     jsr snake.processUserInput
     jsr snake.spawnFood
+_restartTimer
     jsr setTimerAnimation
     lda #BOOL_FALSE
     sta snake.GAME.locked
