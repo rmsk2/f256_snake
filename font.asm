@@ -1,75 +1,57 @@
 font .namespace 
 
+COUNT   .byte 0
+OFFSET  .word 0 
 init
-    #load16BitImmediate APPLE, FONT_PTR1
-    lda #snake.FOOD_CHAR
+    stz COUNT
+    #load16BitImmediate 0, OFFSET
+_loop
+    #load16BitImmediate CHANGED_CHARS, FONT_PTR3
+    #add16Bit OFFSET, FONT_PTR3
+    ldy #ModChar_t.addr
+    lda (FONT_PTR3), y
+    sta FONT_PTR1
+    iny
+    lda (FONT_PTR3), y
+    sta FONT_PTR1 + 1
+    ldy #ModChar_t.code
+    lda (FONT_PTR3), y
     jsr modifyCharacter
-
-    #load16BitImmediate CT_SEGMENT, FONT_PTR1
-    lda #snake.BODY_CHAR
-    jsr modifyCharacter
-
-    #load16BitImmediate HEAD_RIGHT, FONT_PTR1
-    lda #snake.HEAD_RIGHT
-    jsr modifyCharacter
-
-    #load16BitImmediate HEAD_LEFT, FONT_PTR1
-    lda #snake.HEAD_LEFT
-    jsr modifyCharacter
-
-    #load16BitImmediate HEAD_DOWN, FONT_PTR1
-    lda #snake.HEAD_DOWN
-    jsr modifyCharacter
-
-    #load16BitImmediate HEAD_UP, FONT_PTR1
-    lda #snake.HEAD_UP
-    jsr modifyCharacter
-
-    #load16BitImmediate GRASS, FONT_PTR1
-    lda #snake.BACKGROUND_CHAR
-    jsr modifyCharacter
-
-    #load16BitImmediate dataChar0, FONT_PTR1
-    lda #$30
-    jsr modifyCharacter
-
-    #load16BitImmediate dataChar1, FONT_PTR1
-    lda #$31
-    jsr modifyCharacter
-
-    #load16BitImmediate dataChar2, FONT_PTR1
-    lda #$32
-    jsr modifyCharacter
-
-    #load16BitImmediate dataChar3, FONT_PTR1
-    lda #$33
-    jsr modifyCharacter
-
-    #load16BitImmediate dataChar4, FONT_PTR1
-    lda #$34
-    jsr modifyCharacter
-
-    #load16BitImmediate dataChar5, FONT_PTR1
-    lda #$35
-    jsr modifyCharacter
-
-    #load16BitImmediate dataChar6, FONT_PTR1
-    lda #$36
-    jsr modifyCharacter
-
-    #load16BitImmediate dataChar7, FONT_PTR1
-    lda #$37
-    jsr modifyCharacter
-
-    #load16BitImmediate dataChar8, FONT_PTR1
-    lda #$38
-    jsr modifyCharacter
-
-    #load16BitImmediate dataChar9, FONT_PTR1
-    lda #$39
-    jsr modifyCharacter
-
+    #double16Bit OFFSET
+    #double16Bit OFFSET
+    inc COUNT
+    lda COUNT
+    cmp #NUM_CHANGED_CHARS
+    bne _loop
     rts
+
+
+ModChar_t .struct charCode, memAddr
+    code    .byte \charCode
+    addr    .word \memAddr
+    reserve .byte 0
+.endstruct
+
+NUM_CHANGED_CHARS = 17
+
+CHANGED_CHARS
+C1   .dstruct ModChar_t, snake.FOOD_CHAR, APPLE
+C2   .dstruct ModChar_t, snake.BODY_CHAR, CT_SEGMENT
+C3   .dstruct ModChar_t, snake.HEAD_RIGHT, HEAD_RIGHT 
+C4   .dstruct ModChar_t, snake.HEAD_LEFT, HEAD_LEFT 
+C5   .dstruct ModChar_t, snake.HEAD_UP, HEAD_UP
+C6   .dstruct ModChar_t, snake.HEAD_DOWN, HEAD_DOWN 
+C7   .dstruct ModChar_t, snake.BACKGROUND_CHAR, GRASS
+C8   .dstruct ModChar_t, $30, dataChar0
+C9   .dstruct ModChar_t, $31, dataChar1
+C10  .dstruct ModChar_t, $32, dataChar2
+C11  .dstruct ModChar_t, $33, dataChar3
+C12  .dstruct ModChar_t, $34, dataChar4
+C13  .dstruct ModChar_t, $35, dataChar5
+C14  .dstruct ModChar_t, $36, dataChar6
+C15  .dstruct ModChar_t, $37, dataChar7
+C16  .dstruct ModChar_t, $38, dataChar8
+C17  .dstruct ModChar_t, $39, dataChar9
 
 
 TEMP_INDEX .word 0

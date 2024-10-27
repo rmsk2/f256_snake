@@ -106,7 +106,10 @@ init
 
     lda #SCREEN_Y/2
     sta GAME.yPos
-    lda #SCREEN_X/2 + 4
+    lda #SCREEN_X/2
+    clc
+    adc data.STATE.len
+    dea
     sta GAME.xPos
 
     #load16BitImmediate 0, GAME.points

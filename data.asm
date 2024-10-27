@@ -57,6 +57,9 @@ init
     #pushImmediate SCREEN_X/2 + 2, SCREEN_Y/2, 0
     #pushImmediate SCREEN_X/2 + 3, SCREEN_Y/2, 0
     #pushImmediate SCREEN_X/2 + 4, SCREEN_Y/2, 0
+    #pushImmediate SCREEN_X/2 + 5, SCREEN_Y/2, 0
+    #pushImmediate SCREEN_X/2 + 6, SCREEN_Y/2, 0
+    #pushImmediate SCREEN_X/2 + 7, SCREEN_Y/2, 0    
 
     #load16BitImmediate 1, STATE.back
 
