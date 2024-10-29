@@ -127,12 +127,13 @@ LEVEL3_OBSTACLES3
     .byte 0, 23 
     .byte 0, 24
 
-LEVEL3_BLOCKS2 = 35
+LEVEL3_BLOCKS2 = 36
 LEVEL3_OBSTACLES2
     .byte 8, 6
     .byte 9, 6
     .byte 10, 6
     .byte 11, 6
+    .byte 12, 6
     .byte 8, 7
     .byte 8, 8
     .byte 8, 9
