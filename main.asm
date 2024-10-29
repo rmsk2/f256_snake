@@ -14,6 +14,7 @@ jmp main
 .include "data.asm"
 .include "snake.asm"
 .include "font.asm"
+.include "title.asm"
 
 
 ASCII_L1 = $30
@@ -39,6 +40,12 @@ main
     jsr font.init
     jsr initEvents
     jsr random.init
+
+    jsr title.show
+    jsr txtio.clear
+
+    lda #snake.STATE_GAME
+    sta snake.GAME.state
 
     #load16BitImmediate processTimerEvent, TIMER_VECTOR 
     #load16BitImmediate processKeyEvent, SIMPLE_FOCUS_VECTOR 
