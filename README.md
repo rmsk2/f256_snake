@@ -8,8 +8,8 @@ caterpillar must not collide with itself or with the gravestones which can be fo
 levels. The caterpillar which eats the most apples wins. The number of apples already consumed 
 is shown in the top left corner.
 
-The graveyard has no boundaries, i.e. if the caterpillar moves out of the playfield it simply 
-reappears on the opposite end. 
+In principle the graveyard has no boundaries, i.e. if the caterpillar moves out of the playfield 
+it simply reappears on the opposite end if there is no gravestone in the way.
 
 The game can be controlled with the cursor keys or a joystick in port 0. Whenever you press one
 of the keys 0, 1 or 2 you start a new game in the corresponding level. When F3 is pressed the 
