@@ -80,6 +80,7 @@ dummyCallBack
 SIMPLE_FOCUS_VECTOR .word dummyCallBack
 TIMER_VECTOR .word dummyCallBack
 JOYSTICK_VECTOR .word dummyCallBack
+SNES_VECTOR .word dummyCallBack
 KEY_UP_VECTOR .word dummyCallBack
 
 
@@ -95,11 +96,24 @@ timerCallBack
     jmp (TIMER_VECTOR)
 
 
+snesCallBack
+    jmp (SNES_VECTOR)
+
+
 joystickCallBack
     jmp (JOYSTICK_VECTOR)
 
 
+USE_SNES_PAD = 1
+
 simpleKeyEventLoop
+.if USE_SNES_PAD != 0
+    jsr snes.debounceSnesPad    
+    cmp #$FF
+    beq _doKernelStuff
+    jsr snesCallBack
+.endif
+_doKernelStuff
     ; Peek at the queue to see if anything is pending
     lda kernel.args.events.pending ; Negated count
     bpl simpleKeyEventLoop

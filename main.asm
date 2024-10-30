@@ -6,6 +6,7 @@ jmp main
 .include "api.asm"
 .include "zeropage.asm"
 .include "arith16.asm"
+.include "snes.asm"
 .include "khelp.asm"
 .include "clut.asm"
 .include "txtio.asm"
@@ -40,6 +41,7 @@ main
     jsr font.init
     jsr initEvents
     jsr random.init
+    jsr snes.init
 
     jsr title.show
     jsr txtio.clear
@@ -51,6 +53,7 @@ main
     #load16BitImmediate processKeyEvent, SIMPLE_FOCUS_VECTOR 
     #load16BitImmediate processJoystick, JOYSTICK_VECTOR 
     #load16BitImmediate processKeyUpEvent, KEY_UP_VECTOR
+    #load16BitImmediate processSnesPad, SNES_VECTOR
 
     lda snake.GAME.speed
     sta TIMER_SPEED
@@ -87,6 +90,23 @@ _quit
 processKeyUpEvent
     rts
 
+
+charToLevel
+    cmp #ASCII_L1
+    bcc _done
+    cmp #ASCII_LMAX + 1
+    bcs _done
+    sta TEMP_LVL
+    lda #snake.STATE_RESTART
+    sta snake.GAME.state
+    lda TEMP_LVL
+    sec
+    sbc #$30
+    sta snake.GAME.levelNr
+_done    
+    rts
+
+
 TEMP_LVL .byte 0
 processKeyEvent
     cmp #ASCII_UP
@@ -118,13 +138,7 @@ _level
     beq _calcLevel
     bra _checkF3
 _calcLevel
-    sta TEMP_LVL
-    lda #snake.STATE_RESTART
-    sta snake.GAME.state
-    lda TEMP_LVL
-    sec
-    sbc #$30
-    sta snake.GAME.levelNr
+    jsr charToLevel
     bra _done
 _checkF3
     cmp #ASCII_F3
@@ -147,6 +161,31 @@ _end
     rts    
 _done
     clc
+    rts
+
+; expects contents of $D884 in accu
+processSnesPad
+    cmp #%11110111
+    bne _checkDown
+    lda #snake.UP
+    bra _done
+_checkDown
+    cmp #%11111011
+    bne _checkLeft
+    lda #snake.DOWN
+    bra _done
+_checkLeft
+    cmp #%11111101
+    bne _checkRight
+    lda #snake.LEFT
+    bra _done
+_checkRight
+    cmp #%11111110
+    bne _nothing
+    lda #snake.RIGHT
+_done
+    jsr processJoystick
+_nothing
     rts
 
 

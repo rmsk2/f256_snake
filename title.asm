@@ -3,7 +3,8 @@ title .namespace
 TITLE .text "F256 SNAKE"
 TXT_AUTHOR .text "WRITTEN BY MARTIN GRAP (@mgr42)"
 TXT_PRESS_ANY_KEY .text "PRESS ANY KEY TO START"
-TXT_USAGE .text "USE CURSOR KEYS OR JOYSTICK TO PLAY"
+TXT_LEVEL .text "PRESS 0-2 TO ENTER CORRESPONDING LEVEL"
+TXT_USAGE .text "USE CURSOR KEYS, JOYSTICK OR SNES PAD"
 
 drawChar .macro x, y, char, col
     ldx #\x
@@ -14,6 +15,9 @@ drawChar .macro x, y, char, col
     jsr pokeColChar
 .endmacro
 
+RED_ON_GREEN = TXT_GREEN | TXT_RED << 4
+BROWN_ON_GREEN = TXT_GREEN | TXT_BROWN << 4
+
 show
     jsr txtio.init40x30
     lda #TXT_GREEN
@@ -21,14 +25,17 @@ show
     jsr txtio.clear
     lda #BOOL_FALSE
     sta CURSOR_STATE.scrollOn
+
     #locate 15,2
     #printString TITLE, len(TITLE)
     #locate 5, 4
     #printString TXT_AUTHOR, len(TXT_AUTHOR)
-    #locate 2,25
+    #locate 1,24
     #printString TXT_USAGE, len(TXT_USAGE)
-    #locate 10,27
+    #locate 10,26
     #printString TXT_PRESS_ANY_KEY, len(TXT_PRESS_ANY_KEY)
+    #locate 1,28
+    #printString TXT_LEVEL, len(TXT_LEVEL)
 
     lda CURSOR_STATE.xMax
     sta txtdraw.X_MAX_MEM
@@ -49,9 +56,25 @@ show
     sta txtdraw.RECT_PARAMS.overwrite
     jsr txtdraw.drawRect
 
-    #drawChar 10, 10, snake.FOOD_CHAR, TXT_GREEN | TXT_RED << 4
+    #drawChar 10, 10, snake.FOOD_CHAR, RED_ON_GREEN
+    #drawChar 15, 15, snake.BODY_CHAR, TXT_GREEN
+    #drawChar 16, 15, snake.BODY_CHAR, TXT_GREEN
+    #drawChar 17, 15, snake.BODY_CHAR, TXT_GREEN
+    #drawChar 18, 15, snake.BODY_CHAR, TXT_GREEN
+    #drawChar 19, 15, snake.BODY_CHAR, TXT_GREEN
+    #drawChar 20, 15, snake.BODY_CHAR, TXT_GREEN
+    #drawChar 21, 15, snake.BODY_CHAR, TXT_GREEN
+    #drawChar 21, 14, snake.BODY_CHAR, TXT_GREEN
+    #drawChar 21, 13, snake.BODY_CHAR, TXT_GREEN
+    #drawChar 21, 12, snake.HEAD_UP, TXT_GREEN
+    #drawChar 25, 14, snake.OBSTACLE_CHAR, BROWN_ON_GREEN
+    #drawChar 26, 13, snake.OBSTACLE_CHAR, BROWN_ON_GREEN
+    #drawChar 27, 12, snake.OBSTACLE_CHAR, BROWN_ON_GREEN
+    #drawChar 28, 11, snake.OBSTACLE_CHAR, BROWN_ON_GREEN
 
     jsr waitForKey
+    jsr charToLevel
+
     rts
 
 
