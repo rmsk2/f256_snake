@@ -2,7 +2,7 @@ title .namespace
 
 TITLE .text "F256 SNAKE"
 TXT_AUTHOR .text "WRITTEN BY MARTIN GRAP (@mgr42)"
-TXT_PRESS_ANY_KEY .text "PRESS ANY KEY TO START"
+TXT_PAUSE .text "PRESS SPACE TO PAUSE OR RESUME GAME"
 TXT_LEVEL .text "PRESS 0-2 TO ENTER CORRESPONDING LEVEL"
 TXT_USAGE .text "USE CURSOR KEYS, JOYSTICK OR SNES PAD"
 
@@ -26,15 +26,15 @@ show
     lda #BOOL_FALSE
     sta CURSOR_STATE.scrollOn
 
-    #locate 15,2
+    #locate 15,1
     #printString TITLE, len(TITLE)
-    #locate 5, 4
+    #locate 5, 3
     #printString TXT_AUTHOR, len(TXT_AUTHOR)
-    #locate 1,24
+    #locate 1,23
     #printString TXT_USAGE, len(TXT_USAGE)
-    #locate 10,26
-    #printString TXT_PRESS_ANY_KEY, len(TXT_PRESS_ANY_KEY)
-    #locate 1,28
+    #locate 2,25
+    #printString TXT_PAUSE, len(TXT_PAUSE)
+    #locate 1,27
     #printString TXT_LEVEL, len(TXT_LEVEL)
 
     lda CURSOR_STATE.xMax
@@ -44,7 +44,7 @@ show
 
     lda #4
     sta txtdraw.RECT_PARAMS.xpos
-    lda #6
+    lda #5
     sta txtdraw.RECT_PARAMS.ypos
     lda #30
     sta txtdraw.RECT_PARAMS.lenx

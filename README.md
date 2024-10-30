@@ -11,11 +11,11 @@ is shown in the top left corner.
 In principle the graveyard has no boundaries, i.e. if the caterpillar moves out of the playfield 
 it simply reappears on the opposite end if there is no gravestone in the way.
 
-The game can be controlled with the cursor keys or a joystick in port 0. Whenever you press one
-of the keys 0, 1 or 2 you start a new game in the corresponding level. When F3 is pressed the 
-game is ended and SuperBASIC is restarted. You can pause the game by pressing the space bar. 
-Press the space bar again in order to resume the game. You have to switch your machine off and 
-on again if you want to get rid of the modified font `f256_snake` uses.
+The game can be controlled with the cursor keys, a joystick in port 0 or an SNES pad in the first
+socket. Whenever you press one of the keys 0, 1 or 2 you start a new game in the corresponding level. 
+When F3 is pressed the game is ended and SuperBASIC is restarted. You can pause the game by pressing 
+the space bar. Press the space bar again in order to resume the game. You have to switch your machine
+off and on again if you want to get rid of the modified font `f256_snake` uses.
 
 # A bit of technical info
 
@@ -33,9 +33,12 @@ Alternatively you can use `make upload` to upload and start the program via the 
 
 If the game runs too slow for your taste you can try to decrease the value of the constant 
 `GAME_SPEED` which is defined in the file `snake.asm`. Unfortuately this also decreases the precision
-by which the caterpillar can be controlled. 
+by which the caterpillar can be controlled.
 
-Look at the file `levels.asm` in order to find two examples for levels if you want to add your own.
+You can turn off SNES pad support by setting the constant `USE_SNES_PAD` in `main.asm` to 0. Doing
+this allows you to run the program in the emulator.
+
+Look at the file `levels.asm` in order to find three examples for levels if you want to add your own.
 If you want to do that you also have to modify the constant `ASCII_LMAX` to the ASCII value of the 
 highest level number between `0` and `9` in order to make all levels selectable in the "UI". 
 If you want to be thorough you can adapt the text values `TXT_START` and `TXT_END` to reflect 

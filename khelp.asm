@@ -104,8 +104,6 @@ joystickCallBack
     jmp (JOYSTICK_VECTOR)
 
 
-USE_SNES_PAD = 1
-
 simpleKeyEventLoop
 .if USE_SNES_PAD != 0
     jsr snes.debounceSnesPad    
