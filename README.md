@@ -17,8 +17,8 @@ When F3 is pressed the game is ended and SuperBASIC is restarted. You can pause 
 the space bar. Press the space bar again in order to resume the game. You can also pause and resume
 the game with the fire button on the joystick or the two buttons at the front of the SNES pad.
 
-The duration of the current game
-is shown below the playfield.
+The duration of the current game is shown below the playfield. Calculating the duration of
+the current game is not stopped when the game is paused.
 
 # A bit of technical info
 
