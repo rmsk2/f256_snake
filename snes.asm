@@ -64,14 +64,14 @@ debounceSnesPad
     beq _checkSecond                                            ; first one is => check second
 _restartTest
     lda SNES_NEUTRAL_COUNT                                      ; no => Check counter for neutral position
-    beq _returnResult                                           ; We have seen seen DEBOUNCE_MAX consecutive $FFs before seeing this non neutral value
-    lda #DEBOUNCE_MAX                                           ; We have not seen DEBOUNCE_MAX consecutive $FFs before this non neutral value
+    beq _returnResult                                           ; We have seen DEBOUNCE_MAX consecutive $FF0Fs before seeing this non neutral value
+    lda #DEBOUNCE_MAX                                           ; We have not seen DEBOUNCE_MAX consecutive $FF0Fs before this non neutral value
     sta SNES_NEUTRAL_COUNT                                      ;     =>reset counter for $FF0F
     lda #NEUTRAL_REG1                                           ; return $FF0F
     ldx #NEUTRAL_REG2
     rts
 _checkSecond
-    cpx #NEUTRAL_REG2                                          ; is second register also in neutral?
+    cpx #NEUTRAL_REG2                                           ; is second register also in neutral?
     beq _isNeutral                                              ; both regsisters are in neutral
     bra _restartTest
 _returnResult    
@@ -82,9 +82,9 @@ _returnResult
     rts
 _isNeutral
     lda SNES_NEUTRAL_COUNT                                      ; have we reached the desired number of consecutive reads in neutral position?
-    beq _neutralENough                                          ; yes => we are done and return $FF
+    beq _neutralEnough                                          ; yes => we are done and return $FF0F
     dec SNES_NEUTRAL_COUNT                                      ; no => decrement count for neutral position
-_neutralENough
+_neutralEnough
     lda #NEUTRAL_REG1                                           ; return $FF0F
     ldx #NEUTRAL_REG2
     rts
