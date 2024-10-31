@@ -45,7 +45,7 @@ by which the caterpillar can be controlled.
 You can turn off SNES pad support by setting the constant `USE_SNES_PAD` in `main.asm` to 0. Doing
 this allows you to run the program in the emulator.
 
-Look at the file `levels.asm` in order to find three examples for levels if you want to add your own.
+Look at the file `screens.asm` in order to find three examples for levels if you want to add your own.
 If you want to do that you also have to modify the constant `ASCII_LMAX` to the ASCII value of the 
 highest level number between `0` and `9` in order to make all levels selectable in the "UI". 
 If you want to be thorough you can adapt the text values `TXT_START` and `TXT_END` to reflect 
