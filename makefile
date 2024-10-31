@@ -22,7 +22,6 @@ $(BINARY): *.asm
 clean: 
 	$(RM) $(FORCE) $(BINARY)
 	$(RM) $(FORCE) $(BINARY).pgz
-	$(RM) $(FORCE) tests/bin/*.bin
 
 upload: $(BINARY).pgz
 	$(SUDO) python fnxmgr.zip --port $(PORT) --run-pgz $(BINARY).pgz
