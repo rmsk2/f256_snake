@@ -152,13 +152,7 @@ _checkF3
 _pause
     cmp #ASCII_SPACE
     bne _end
-    lda snake.GAME.state
-    cmp #snake.STATE_GAME
-    bne _end
-    lda snake.GAME.paused
-    eor #1
-    sta snake.GAME.paused
-    jsr printPaused
+    jsr procPauseRequest
 _end
     sec
     rts    
@@ -166,7 +160,7 @@ _done
     clc
     rts
 
-; expects contents of $D884 in accu
+; expects contents of $D884 in accu and $D885 in x
 processSnesPad
     cmp #%11110111
     bne _checkDown
@@ -184,15 +178,29 @@ _checkLeft
     bra _done
 _checkRight
     cmp #%11111110
-    bne _nothing
+    bne _checkPause
     lda #snake.RIGHT
+    bra _done
+_checkPause
+    txa
+    and #%00000011
+    cmp #%00000011
+    beq _nothing
+    jsr procPauseRequest
+    rts
 _done
     jsr processJoystick
 _nothing
     rts
 
 
-printPaused
+procPauseRequest
+    lda snake.GAME.state
+    cmp #snake.STATE_GAME
+    bne _end
+    lda snake.GAME.paused
+    eor #1
+    sta snake.GAME.paused
     #locate 17, 29    
     lda snake.GAME.paused
     beq _notPaused
@@ -211,6 +219,12 @@ lockState
 
 
 processJoystick
+    tax
+    and #16
+    beq _procRequest
+    jsr procPauseRequest
+    rts
+_procRequest
     ldy snake.GAME.locked
     bne _doNothing
     ldy snake.GAME.paused
@@ -218,7 +232,7 @@ processJoystick
 _doNothing
     rts
 _continue
-    tax
+    txa
     and #snake.UP
     beq _down
     lda snake.GAME.direction
