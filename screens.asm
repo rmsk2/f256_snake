@@ -1,4 +1,4 @@
-levels .namespace
+screens .namespace
 
 ONE   = 0
 TWO   = 1
@@ -9,6 +9,8 @@ LEVELS
     .word level1Func
     .word level2Func
     .word level3Func
+    .word level4Func
+    .word level5Func
 
 
 MOD_VECTOR .word 0
@@ -167,11 +169,68 @@ LEVEL3_OBSTACLES2
     .byte 12, 19
  
 
+LEVEL4_BLOCKS = 36
+LEVEL4_OBSTACLES
+    .byte 5, 13
+    .byte 6, 13
+    .byte 7, 13
+    .byte 8, 13
+    .byte 9, 13
+    .byte 10, 13
+    .byte 11, 13
+    .byte 12, 13
+    .byte 13, 13
+    .byte 14, 13
+    .byte 15, 13
+    .byte 16, 13
+    .byte 17, 13
+    .byte 18, 13
+    .byte 19, 13
+    .byte 20, 13
+    .byte 21, 13
+    .byte 22, 13
+    .byte 23, 13
+    .byte 24, 13
+    .byte 25, 13
+    .byte 26, 13
 
-; This only works for a mximum number of 128 blocks
+    .byte 15, 6
+    .byte 15, 7
+    .byte 15, 8
+    .byte 15, 9
+    .byte 15, 10
+    .byte 15, 11
+    .byte 15, 12
+    .byte 15, 13
+    .byte 15, 14
+    .byte 15, 15
+    .byte 15, 16
+    .byte 15, 17
+    .byte 15, 18
+    .byte 15, 19
+
+
+LEVEL5_BLOCKS = 12
+LEVEL5_OBSTACLES
+    .byte 7, 3
+    .byte 6, 4
+    .byte 5, 5
+    .byte 24 , 22
+    .byte 25 , 21
+    .byte 26 , 20
+    .byte 7, 21
+    .byte 8, 21
+    .byte 9, 21
+    .byte 24, 4
+    .byte 23, 4
+    .byte 22, 4
+
+; This only works for a maximum number of 128 blocks
 NUM_BLOCKS .byte 0
 plotObstacles
     sta NUM_BLOCKS
+    cmp #0
+    beq _nothing
     ldy #0
     ldx #0
 _loop
@@ -189,6 +248,7 @@ _loop
     inx
     cpx NUM_BLOCKS
     bne _loop
+_nothing    
     rts
 
 ; accu has to contain level number. At the moment only
@@ -226,6 +286,37 @@ level3Func
 
     #load16BitImmediate LEVEL3_OBSTACLES2, LVL_PTR2
     lda #LEVEL3_BLOCKS2
+    jsr plotObstacles
+
+    rts
+
+
+level4Func
+    lda #TXT_GREEN | TXT_BROWN << 4
+    sta snake.PLOT_TEMP_COL
+    lda #snake.OBSTACLE_CHAR
+    sta snake.PLOT_TEMP_CHAR
+
+    #load16BitImmediate LEVEL3_OBSTACLES1, LVL_PTR2
+    lda #LEVEL3_BLOCKS1
+    jsr plotObstacles
+
+    #load16BitImmediate LEVEL4_OBSTACLES, LVL_PTR2
+    lda #LEVEL4_BLOCKS
+    jsr plotObstacles
+
+    #load16BitImmediate LEVEL3_OBSTACLES3, LVL_PTR2
+    lda #LEVEL3_BLOCKS3
+    jsr plotObstacles
+
+    rts
+
+
+level5Func
+    jsr level4Func
+
+    #load16BitImmediate LEVEL5_OBSTACLES, LVL_PTR2
+    lda #LEVEL5_BLOCKS
     jsr plotObstacles
 
     rts

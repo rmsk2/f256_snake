@@ -71,6 +71,27 @@ _isAscii
     rts
 
 
+HEX_CHARS .text "0123456789ABCDEF"
+
+CONV_TEMP
+.byte 0
+; --------------------------------------------------
+; This routine splits the value in accu its nibbles. The lower nibble 
+; is returned in x and its upper nibble in the accu
+; --------------------------------------------------
+splitByte
+    sta CONV_TEMP
+    and #$0F
+    tax
+    lda CONV_TEMP
+    and #$F0
+    lsr
+    lsr 
+    lsr 
+    lsr
+    rts
+
+
 ; Dummy callback which ends keyEventLoop and simpleKeyEventLoop
 dummyCallBack
     clc
@@ -108,7 +129,10 @@ simpleKeyEventLoop
 .if USE_SNES_PAD != 0
     jsr snes.debounceSnesPad    
     cmp #$FF
+    bne _padPressed
+    cpx #$FF
     beq _doKernelStuff
+_padPressed
     jsr snesCallBack
 .endif
 _doKernelStuff
@@ -211,6 +235,11 @@ setTimerAnimation
     #setTimerHelp kernel.args.timer.FRAMES, TIMER_SPEED, TIMER_COOKIE_ANIMATION
     rts
 
+
+TIMER_COOKIE_CLOCK .byte 29
+setTimerClockTick
+    #setTimerHelp kernel.args.timer.SECONDS, 1, TIMER_COOKIE_CLOCK
+    rts
 
 
 exitToBasic

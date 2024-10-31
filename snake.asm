@@ -4,7 +4,7 @@ SCREEN_Y = 25
 OFFSET_X = 4
 OFFSET_Y = 1
 
-.include "level.asm"
+.include "screens.asm"
 
 snake .namespace
 
@@ -39,7 +39,8 @@ snake_t .struct
     points    .word 0
     locked    .byte BOOL_FALSE
     paused    .byte BOOL_FALSE
-    levelNr   .byte levels.ONE
+    levelNr   .byte screens.ONE
+    tsStart   .dstruct TimeStamp_t, 0, 0, 0
 .endstruct
 
 GAME .dstruct snake_t
@@ -105,7 +106,7 @@ init
     sta GAME.direction
 
     lda GAME.levelNr
-    jsr levels.modifyLevel
+    jsr screens.modifyLevel
 
     jsr data.init
     jsr renderInitialQueue
@@ -120,6 +121,9 @@ init
 
     #load16BitImmediate 0, GAME.points
     jsr drawPoints
+
+    #getTimestamp GAME.tsStart
+    jsr showTime
 
     lda #BOOL_TRUE
     sta GAME.spawnFood

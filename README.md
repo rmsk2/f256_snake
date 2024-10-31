@@ -3,19 +3,19 @@ A simple snake clone for the Foenix 256 line of modern retro computers which was
 during the October 2024 game jam on the Foenix retro systems discord server. 
 
 The game idea is simple and well known: A caterpillar wants to eat apples, which appear at
-random locations on the playfield. Unfortunately for each apple it consumes it grows longer. The 
-caterpillar must not collide with itself or with the gravestones which can be found on some 
-levels. The caterpillar which eats the most apples wins. The number of apples already consumed 
-is shown in the top left corner.
+random locations on the playfield. Unfortunately for each apple it consumes it grows longer. 
+The number of apples already consumed is shown in the top left corner. The caterpillar must not 
+collide with itself or with the gravestones which can be found on the screens. There are 
+five screens at the moment, which present different sets of additional obstacles.
 
 In principle the graveyard has no boundaries, i.e. if the caterpillar moves out of the playfield 
 it simply reappears on the opposite end if there is no gravestone in the way.
 
 The game can be controlled with the cursor keys, a joystick in port 0 or an SNES pad in the first
-socket. Whenever you press one of the keys 0, 1 or 2 you start a new game in the corresponding level. 
+socket. Whenever you press one of the keys 0, 1, 2, 3 or 4 you start a new game on the corresponding screen. 
 When F3 is pressed the game is ended and SuperBASIC is restarted. You can pause the game by pressing 
-the space bar. Press the space bar again in order to resume the game. You have to switch your machine
-off and on again if you want to get rid of the modified font `f256_snake` uses.
+the space bar. Press the space bar again in order to resume the game. The duration of the current game
+is shown below the playfield.
 
 # A bit of technical info
 
@@ -23,7 +23,9 @@ off and on again if you want to get rid of the modified font `f256_snake` uses.
 In retrospect an esthetically more pleasing result could have been achieved using 8x8 tiles 
 (in 256 colours) instead of characters with only two colours without being much more difficult 
 to program. On the other hand I am not an artist and who knows maybe the end result would not 
-have been that better `;-)`. 
+have been that better `;-)`. You have to switch your machine off and on again if you want to get rid 
+of the modified font `f256_snake` uses.
+
 
 # Building and modifying the game
 

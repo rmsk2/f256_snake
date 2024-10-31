@@ -1,9 +1,9 @@
 title .namespace
 
 TITLE .text "F256 SNAKE"
-TXT_AUTHOR .text "WRITTEN BY MARTIN GRAP (@mgr42)"
+TXT_AUTHOR .text "BY MARTIN GRAP (@mgr42)"
 TXT_PAUSE .text "PRESS SPACE TO PAUSE OR RESUME GAME"
-TXT_LEVEL .text "PRESS 0-2 TO ENTER CORRESPONDING LEVEL"
+TXT_LEVEL .text "PRESS 0-4 TO ENTER CORRESPONDING SCREEN"
 TXT_USAGE .text "USE CURSOR KEYS, JOYSTICK OR SNES PAD"
 
 drawChar .macro x, y, char, col
@@ -28,13 +28,13 @@ show
 
     #locate 15,1
     #printString TITLE, len(TITLE)
-    #locate 5, 3
+    #locate 8, 3
     #printString TXT_AUTHOR, len(TXT_AUTHOR)
     #locate 1,23
     #printString TXT_USAGE, len(TXT_USAGE)
     #locate 2,25
     #printString TXT_PAUSE, len(TXT_PAUSE)
-    #locate 1,27
+    #locate 0,27
     #printString TXT_LEVEL, len(TXT_LEVEL)
 
     lda CURSOR_STATE.xMax

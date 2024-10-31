@@ -8,6 +8,7 @@ jmp main
 .include "arith16.asm"
 .include "snes.asm"
 .include "khelp.asm"
+.include "rtc.asm"
 .include "clut.asm"
 .include "txtio.asm"
 .include "txtdraw.asm"
@@ -20,7 +21,7 @@ jmp main
 USE_SNES_PAD = 1
 
 ASCII_L1 = $30
-ASCII_LMAX = $32
+ASCII_LMAX = $34
 ASCII_F3 = 131
 ASCII_UP = 16
 ASCII_DOWN = 14
@@ -28,8 +29,8 @@ ASCII_LEFT = 2
 ASCII_RIGHT = 6
 ASCII_SPACE = $20
 
-TXT_START      .text "PRESS 0-2 TO PLAY. F3 TO EXIT."
-TXT_END        .text "GAME OVER. PRESS 0-2 TO PLAY AGAIN."
+TXT_START      .text "PRESS 0-4 TO PLAY. F3 TO EXIT."
+TXT_END        .text "GAME OVER. PRESS 0-4 TO PLAY AGAIN."
 TXT_PAUSED     .text "PAUSED"
 TXT_NOT_PAUSED .text "      "
 TXT_LEVEL      .text "L "
@@ -59,6 +60,7 @@ main
     lda snake.GAME.speed
     sta TIMER_SPEED
     jsr setTimerAnimation
+    jsr setTimerClockTick
 _restart
     jsr snake.init
     #locate 5, 27
@@ -267,7 +269,7 @@ _done
 
 processTimerEvent
     cmp TIMER_COOKIE_ANIMATION
-    bne _doNothing
+    bne _testClock
     lda snake.GAME.paused
     bne _restartTimer
     jsr snake.processUserInput
@@ -276,7 +278,29 @@ _restartTimer
     jsr setTimerAnimation
     lda #BOOL_FALSE
     sta snake.GAME.locked
+    rts
+_testClock
+    cmp TIMER_COOKIE_CLOCK
+    bne _doNothing
+    jsr showTime
+    jsr setTimerClockTick
 _doNothing
+    rts
+
+
+TIME_STR .fill 8
+CURRENT_TIME .dstruct TimeStamp_t
+
+showTime
+    lda snake.GAME.state
+    cmp #snake.STATE_GAME
+    bne _done
+    #getTimestamp CURRENT_TIME
+    #diffTime snake.GAME.tsStart, CURRENT_TIME
+    #getTimeStr TIME_STR, CURRENT_TIME
+    #locate 17, 28
+    #printString TIME_STR+3, 5
+_done
     rts
 
 

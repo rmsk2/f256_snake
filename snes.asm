@@ -45,35 +45,48 @@ _sample
     sta PAD_REG
 
     lda REG1_VAL
+    ldx REG2_VAL
 
     rts
 
 
 SNES_NEUTRAL_COUNT .byte 0
-SNES_VALUE .byte 0
+SNES_VALUE   .byte 0
+SNES_VALUE_2 .byte 0
+NEUTRAL_REG1 = $FF
+NEUTRAL_REG2 = $0F
 
 debounceSnesPad    
     jsr snes.querySnesPad                                       ; query button state of SNES pad
     sta SNES_VALUE                                              ; save current button state
-    cmp #$FF                                                    ; are we in neutral?
-    beq _isNeutral                                              ; yes
+    stx SNES_VALUE_2
+    cmp #NEUTRAL_REG1                                                    ; are both registers in neutral?
+    beq _checkSecond                                            ; first one is => check second
+_restartTest
     lda SNES_NEUTRAL_COUNT                                      ; no => Check counter for neutral position
-    beq _wasNeutral                                             ; We have seen seen DEBOUNCE_MAX consecutive $FFs before seeing this non neutral value
+    beq _returnResult                                           ; We have seen seen DEBOUNCE_MAX consecutive $FFs before seeing this non neutral value
     lda #DEBOUNCE_MAX                                           ; We have not seen DEBOUNCE_MAX consecutive $FFs before this non neutral value
-    sta SNES_NEUTRAL_COUNT                                      ;     =>reset counter for $FF
-    lda #$FF                                                    ; return $FF
+    sta SNES_NEUTRAL_COUNT                                      ;     =>reset counter for $FF0F
+    lda #NEUTRAL_REG1                                           ; return $FF0F
+    ldx #NEUTRAL_REG2
     rts
-_wasNeutral    
+_checkSecond
+    cpx #NEUTRAL_REG2                                          ; is second register also in neutral?
+    beq _isNeutral                                              ; both regsisters are in neutral
+    bra _restartTest
+_returnResult    
     lda #DEBOUNCE_MAX                                           ; reset counter for neutral position
     sta SNES_NEUTRAL_COUNT                                      ;
     lda SNES_VALUE                                              ; return non neutral value
+    ldx SNES_VALUE_2
     rts
 _isNeutral
     lda SNES_NEUTRAL_COUNT                                      ; have we reached the desired number of consecutive reads in neutral position?
     beq _neutralENough                                          ; yes => we are done and return $FF
     dec SNES_NEUTRAL_COUNT                                      ; no => decrement count for neutral position
 _neutralENough
-    lda #$FF                                                    ; return $FF
+    lda #NEUTRAL_REG1                                           ; return $FF0F
+    ldx #NEUTRAL_REG2
     rts
 
 
