@@ -33,7 +33,7 @@ TXT_START      .text "PRESS 0-4 TO PLAY. F3 TO EXIT."
 TXT_END        .text "GAME OVER. PRESS 0-4 TO PLAY AGAIN."
 TXT_PAUSED     .text "PAUSED"
 TXT_NOT_PAUSED .text "      "
-TXT_LEVEL      .text "L "
+TXT_LEVEL      .text "S "
 
 main
     jsr setupMMU

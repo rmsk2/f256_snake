@@ -206,7 +206,8 @@ _down
 
 
 plotBody
-    lda #TXT_GREEN
+    ;lda #TXT_GREEN
+    lda #TXT_BROWN
     sta PLOT_TEMP_COL
     lda #BODY_CHAR
     jmp plot

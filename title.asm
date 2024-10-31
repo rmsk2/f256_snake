@@ -16,7 +16,8 @@ drawChar .macro x, y, char, col
 .endmacro
 
 RED_ON_GREEN = TXT_GREEN | TXT_RED << 4
-BROWN_ON_GREEN = TXT_GREEN | TXT_BROWN << 4
+BLACK_ON_GREEN = TXT_GREEN | TXT_BLACK << 4
+BLACK_ON_BROWN = TXT_BROWN | TXT_BLACK << 4
 
 show
     jsr txtio.init40x30
@@ -57,20 +58,20 @@ show
     jsr txtdraw.drawRect
 
     #drawChar 10, 10, snake.FOOD_CHAR, RED_ON_GREEN
-    #drawChar 15, 15, snake.BODY_CHAR, TXT_GREEN
-    #drawChar 16, 15, snake.BODY_CHAR, TXT_GREEN
-    #drawChar 17, 15, snake.BODY_CHAR, TXT_GREEN
-    #drawChar 18, 15, snake.BODY_CHAR, TXT_GREEN
-    #drawChar 19, 15, snake.BODY_CHAR, TXT_GREEN
-    #drawChar 20, 15, snake.BODY_CHAR, TXT_GREEN
-    #drawChar 21, 15, snake.BODY_CHAR, TXT_GREEN
-    #drawChar 21, 14, snake.BODY_CHAR, TXT_GREEN
-    #drawChar 21, 13, snake.BODY_CHAR, TXT_GREEN
+    #drawChar 15, 15, snake.BODY_CHAR, BLACK_ON_BROWN
+    #drawChar 16, 15, snake.BODY_CHAR, BLACK_ON_BROWN
+    #drawChar 17, 15, snake.BODY_CHAR, BLACK_ON_BROWN
+    #drawChar 18, 15, snake.BODY_CHAR, BLACK_ON_BROWN
+    #drawChar 19, 15, snake.BODY_CHAR, BLACK_ON_BROWN
+    #drawChar 20, 15, snake.BODY_CHAR, BLACK_ON_BROWN
+    #drawChar 21, 15, snake.BODY_CHAR, BLACK_ON_BROWN
+    #drawChar 21, 14, snake.BODY_CHAR, BLACK_ON_BROWN
+    #drawChar 21, 13, snake.BODY_CHAR, BLACK_ON_BROWN
     #drawChar 21, 12, snake.HEAD_UP, TXT_GREEN
-    #drawChar 25, 14, snake.OBSTACLE_CHAR, BROWN_ON_GREEN
-    #drawChar 26, 13, snake.OBSTACLE_CHAR, BROWN_ON_GREEN
-    #drawChar 27, 12, snake.OBSTACLE_CHAR, BROWN_ON_GREEN
-    #drawChar 28, 11, snake.OBSTACLE_CHAR, BROWN_ON_GREEN
+    #drawChar 25, 14, snake.OBSTACLE_CHAR, BLACK_ON_GREEN
+    #drawChar 26, 13, snake.OBSTACLE_CHAR, BLACK_ON_GREEN
+    #drawChar 27, 12, snake.OBSTACLE_CHAR, BLACK_ON_GREEN
+    #drawChar 28, 11, snake.OBSTACLE_CHAR, BLACK_ON_GREEN
 
     jsr waitForKey
     jsr charToLevel

@@ -60,12 +60,12 @@ init
     #setIo 0
     #setTxtColInt TXT_BLACK,  $00, $00, $00, $FF
     #setTxtColInt TXT_WHITE,  $FF, $FF, $FF, $FF
-    #setTxtColInt TXT_BLUE,   $00, $00, $FF, $FF
+    #setTxtColInt TXT_BLUE,   $00, $80, $FF, $FF
     #setTxtColInt TXT_GREEN,  $00, $FF, $00, $FF
     #setTxtColInt TXT_AMBER,  $FA, $63, $05, $FF
     #setTxtColInt TXT_RED,    $FF, $00, $00, $FF
     #setTxtColInt TXT_GRAY,   $00, $B0, $00, $FF
-    #setTxtColInt TXT_BROWN,   $5C, $40, $33, $FF
+    #setTxtColInt TXT_BROWN,   196, 164, 132, $FF
 
     #restoreIo
     rts
