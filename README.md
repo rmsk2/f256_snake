@@ -20,6 +20,8 @@ the game with the fire button on the joystick or the two buttons at the front of
 The duration of the current game is shown below the playfield. Calculating the duration of
 the current game is not stopped when the game is paused.
 
+![](/scrshot.png?raw=true "Screenshot of snake in emulator")
+
 # A bit of technical info
 
 `f256_snake` runs in 40x30 characters text mode and uses a modified font to draw on the screen. 
