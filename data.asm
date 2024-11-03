@@ -15,10 +15,10 @@ entry_t .struct
 
 data .namespace 
 
-MAX_ENTRIES = 4096
+MAX_ENTRIES = 1024
 ;QUEUE .fill MAX_ENTRIES * size(entry_t)
-QUEUE = $8000
-MASK = %0000111111111111
+QUEUE = $B000
+MASK = %0000001111111111
 
 state_t .struct 
     front .word 0
