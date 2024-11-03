@@ -128,9 +128,9 @@ joystickCallBack
 simpleKeyEventLoop
 .if USE_SNES_PAD != 0
     jsr snes.debounceSnesPad    
-    cmp #$FF
+    cmp #snes.NEUTRAL_REG1
     bne _padPressed
-    cpx #$FF
+    cpx #snes.NEUTRAL_REG2
     beq _doKernelStuff
 _padPressed
     jsr snesCallBack
