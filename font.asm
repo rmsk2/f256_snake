@@ -137,8 +137,8 @@ HEAD_DOWN
     .byte %01000010
 
 GRASS
-    .byte 0
-    .byte 0
+    .byte %00000000
+    .byte %00000000
     .byte %00000100
     .byte %00101000
     .byte %00011000
@@ -147,7 +147,7 @@ GRASS
     .byte %01000000
 
 OBSTACLE
-    .byte $0
+    .byte %00000000
     .byte %00011100
     .byte %00100010
     .byte %01001001
