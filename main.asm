@@ -12,6 +12,8 @@ jmp main
 .include "clut.asm"
 .include "txtio.asm"
 .include "txtdraw.asm"
+.include "tiles.asm"
+.include "tiles_base.asm"
 .include "random.asm"
 .include "data.asm"
 .include "snake.asm"
