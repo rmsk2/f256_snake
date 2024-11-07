@@ -47,6 +47,9 @@ main
     jsr random.init
     jsr snes.init
 
+    #configTileSetAddr TILE_SET_ADDR
+    #setBackGroundColour $00FF00
+    jsr tiles.on
     jsr title.show
     jsr txtio.clear
 
@@ -86,6 +89,7 @@ _restart
     sta snake.GAME.state
     bra _restart
 _quit
+    jsr tiles.off
     jsr exitToBasic
     ; I guess we never get here ....
     jsr sys64738
