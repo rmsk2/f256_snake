@@ -273,8 +273,6 @@ modifyLevel
 
 
 level3Func
-    lda #TXT_GREEN | TXT_BLACK << 4
-    sta snake.PLOT_TEMP_COL
     lda #snake.OBSTACLE_CHAR
     sta snake.PLOT_TEMP_CHAR
 
@@ -294,8 +292,6 @@ level3Func
 
 
 level4Func
-    lda #TXT_GREEN | TXT_BLACK << 4
-    sta snake.PLOT_TEMP_COL
     lda #snake.OBSTACLE_CHAR
     sta snake.PLOT_TEMP_CHAR
 
@@ -325,8 +321,6 @@ level5Func
 
 
 level1Func
-    lda #TXT_GREEN | TXT_BLACK << 4
-    sta snake.PLOT_TEMP_COL
     lda #snake.OBSTACLE_CHAR
     sta snake.PLOT_TEMP_CHAR
 
@@ -337,8 +331,6 @@ level1Func
 
 
 level2Func
-    lda #TXT_GREEN | TXT_BLACK << 4
-    sta snake.PLOT_TEMP_COL
     lda #snake.OBSTACLE_CHAR
     sta snake.PLOT_TEMP_CHAR
 

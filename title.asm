@@ -1,23 +1,16 @@
 title .namespace
 
-TITLE .text "F256 SNAKE"
+TITLE .text "F256 SNAKE v1.1.1"
 TXT_AUTHOR .text "BY MARTIN GRAP (@mgr42)"
 TXT_PAUSE .text "PRESS SPACE TO PAUSE OR RESUME GAME"
 TXT_LEVEL .text "PRESS 0-4 TO ENTER CORRESPONDING SCREEN"
 TXT_USAGE .text "USE CURSOR KEYS, JOYSTICK OR SNES PAD"
 
-drawChar .macro x, y, char, col
-    ldx #\x
-    ldy #\y
-    lda #\col
-    sta COL_TEMP
-    lda #\char
-    jsr pokeColChar
-.endmacro
+FRAME_X = 4
+FRAME_Y = 5
+SIZE_X = 30
+SIZE_Y = 15
 
-RED_ON_GREEN = TXT_GREEN | TXT_RED << 4
-BLACK_ON_GREEN = TXT_GREEN | TXT_BLACK << 4
-BLACK_ON_BROWN = TXT_BROWN | TXT_BLACK << 4
 
 show
     jsr txtio.init40x30
@@ -27,7 +20,7 @@ show
     lda #BOOL_FALSE
     sta CURSOR_STATE.scrollOn
 
-    #locate 15,1
+    #locate 11,1
     #printString TITLE, len(TITLE)
     #locate 8, 3
     #printString TXT_AUTHOR, len(TXT_AUTHOR)
@@ -43,51 +36,52 @@ show
     lda CURSOR_STATE.yMax
     sta txtdraw.Y_MAX_MEM
 
-    lda #4
+    ldx #FRAME_X + 1
+    ldy #FRAME_Y + 1
+    lda #GRASS_TILE
+_loop
+    jsr tiles.plotTileReg
+    inx
+    cpx #FRAME_X+SIZE_X+1
+    bne _loop
+    ldx #FRAME_X + 1
+    iny
+    cpy #FRAME_Y+SIZE_Y+1
+    bne _loop
+
+    lda #FRAME_X
     sta txtdraw.RECT_PARAMS.xpos
-    lda #5
+    lda #FRAME_Y
     sta txtdraw.RECT_PARAMS.ypos
-    lda #30
+    lda #SIZE_X
     sta txtdraw.RECT_PARAMS.lenx
-    lda #15
+    lda #SIZE_Y
     sta txtdraw.RECT_PARAMS.leny
-    lda #TXT_GREEN | TXT_GRAY << 4
+    lda #TXT_GREEN
     sta txtdraw.RECT_PARAMS.col
     lda #BOOL_TRUE
     sta txtdraw.RECT_PARAMS.overwrite
     jsr txtdraw.drawRect
 
-    #drawChar 10, 10, snake.FOOD_CHAR, RED_ON_GREEN
-    #drawChar 15, 15, snake.BODY_CHAR, BLACK_ON_BROWN
-    #drawChar 16, 15, snake.BODY_CHAR, BLACK_ON_BROWN
-    #drawChar 17, 15, snake.BODY_CHAR, BLACK_ON_BROWN
-    #drawChar 18, 15, snake.BODY_CHAR, BLACK_ON_BROWN
-    #drawChar 19, 15, snake.BODY_CHAR, BLACK_ON_BROWN
-    #drawChar 20, 15, snake.BODY_CHAR, BLACK_ON_BROWN
-    #drawChar 21, 15, snake.BODY_CHAR, BLACK_ON_BROWN
-    #drawChar 21, 14, snake.BODY_CHAR, BLACK_ON_BROWN
-    #drawChar 21, 13, snake.BODY_CHAR, BLACK_ON_BROWN
-    #drawChar 21, 12, snake.HEAD_UP, TXT_GREEN
-    #drawChar 25, 14, snake.OBSTACLE_CHAR, BLACK_ON_GREEN
-    #drawChar 26, 13, snake.OBSTACLE_CHAR, BLACK_ON_GREEN
-    #drawChar 27, 12, snake.OBSTACLE_CHAR, BLACK_ON_GREEN
-    #drawChar 28, 11, snake.OBSTACLE_CHAR, BLACK_ON_GREEN
+    #plotTile 10, 10, APPLE_TILE
+    #plotTile 15, 15, SEGMENT_TILE
+    #plotTile 16, 15, SEGMENT_TILE
+    #plotTile 17, 15, SEGMENT_TILE
+    #plotTile 18, 15, SEGMENT_TILE
+    #plotTile 19, 15, SEGMENT_TILE
+    #plotTile 20, 15, SEGMENT_TILE
+    #plotTile 21, 15, SEGMENT_TILE
+    #plotTile 21, 14, SEGMENT_TILE
+    #plotTile 21, 13, SEGMENT_TILE
+    #plotTile 21, 12, HEAD_U_TILE
+    #plotTile 25, 14, OBSTACLE_TILE
+    #plotTile 26, 13, OBSTACLE_TILE
+    #plotTile 27, 12, OBSTACLE_TILE
+    #plotTile 28, 11, OBSTACLE_TILE
 
     jsr waitForKey
     jsr charToLevel
 
-    rts
-
-
-COL_TEMP .byte 0
-pokeColChar
-    phx
-    phy
-    jsr txtio.pokeChar
-    ply
-    plx
-    lda COL_TEMP
-    jsr txtio.pokeColor
     rts
 
 .endnamespace

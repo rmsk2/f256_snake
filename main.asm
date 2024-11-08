@@ -35,7 +35,7 @@ TXT_START      .text "PRESS 0-4 TO PLAY. F3 TO EXIT."
 TXT_END        .text "GAME OVER. PRESS 0-4 TO PLAY AGAIN."
 TXT_PAUSED     .text "PAUSED"
 TXT_NOT_PAUSED .text "      "
-TXT_LEVEL      .text "S "
+TXT_LEVEL_S    .text "S", $0d, "C", $0d, "R", $0d, "E", $0d, "E", $0d, "N "
 
 main
     jsr setupMMU
@@ -51,6 +51,7 @@ main
     #setBackGroundColour $00FF00
     jsr tiles.on
     jsr title.show
+    jsr tiles.clearTileMap
     jsr txtio.clear
 
     lda #snake.STATE_GAME
@@ -72,10 +73,12 @@ _restart
     #printString TXT_START, len(TXT_START)
 
     #locate 0, 1
-    lda #snake.FOOD_CHAR
+    lda #font.APPLE_CHAR
+    jsr txtio.charOut
+    jsr txtio.charOut
     jsr txtio.charOut
     #locate 0, 5
-    printString TXT_LEVEL, len(TXT_LEVEL)
+    printString TXT_LEVEL_S, len(TXT_LEVEL_S)
     lda snake.GAME.levelNr
     clc
     adc #$30

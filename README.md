@@ -1,4 +1,5 @@
 # f256_snake
+
 A simple snake clone for the Foenix 256 line of modern retro computers which was developed 
 during the October 2024 game jam on the Foenix retro systems discord server. 
 
@@ -24,13 +25,11 @@ the current game is not stopped when the game is paused.
 
 # A bit of technical info
 
-`f256_snake` runs in 40x30 characters text mode and uses a modified font to draw on the screen. 
-In retrospect an esthetically more pleasing result could have been achieved using 8x8 tiles 
-(in 256 colours) instead of characters with only two colours without being much more difficult 
-to program. On the other hand I am not an artist and who knows maybe the end result would not 
-have been that better `;-)`. You have to switch your machine off and on again if you want to get rid 
-of the modified font `f256_snake` uses.
-
+`f256_snake` runs in 40x30 characters text mode on top of an 8x8 tiles layer to draw the playing 
+field. In theory each tile can show pixels in 256 colours. Unfortunately the current tile set is not
+that detailed: Each tile only makes use two colours. But I will try to improve this aspect of the game. 
+As `f256_snake` also uses some modified characters you have to switch your machine off and on again
+if you want to get rid of the modified font.
 
 # Building and modifying the game
 

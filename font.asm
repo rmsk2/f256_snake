@@ -35,18 +35,9 @@ ModChar_t .struct charCode, memAddr
     reserve .byte 0
 .endstruct
 
-NUM_CHANGED_CHARS = 8
-
+NUM_CHANGED_CHARS = 1
 CHANGED_CHARS
-C1   .dstruct ModChar_t, snake.FOOD_CHAR, APPLE
-C2   .dstruct ModChar_t, snake.BODY_CHAR, CT_SEGMENT
-C3   .dstruct ModChar_t, snake.HEAD_RIGHT, HEAD_RIGHT 
-C4   .dstruct ModChar_t, snake.HEAD_LEFT, HEAD_LEFT 
-C5   .dstruct ModChar_t, snake.HEAD_UP, HEAD_UP
-C6   .dstruct ModChar_t, snake.HEAD_DOWN, HEAD_DOWN 
-C7   .dstruct ModChar_t, snake.BACKGROUND_CHAR, GRASS
-C18  .dstruct ModChar_t, snake.OBSTACLE_CHAR, OBSTACLE
-
+C1   .dstruct ModChar_t, APPLE_CHAR, APPLE
 
 
 TEMP_INDEX .word 0
@@ -75,7 +66,7 @@ _loop
     #restoreIo
     rts
 
-
+APPLE_CHAR = 195
 APPLE
     .byte %00000100
     .byte %00001000
@@ -85,75 +76,5 @@ APPLE
     .byte %01111111
     .byte %01111111
     .byte %00111110
-
-CT_SEGMENT
-    .byte %01111110
-    .byte %10000001
-    .byte %10100001
-    .byte %10100001
-    .byte %10000101
-    .byte %10000101    
-    .byte %10000001
-    .byte %01111110
-
-HEAD_RIGHT
-    .byte %11001110
-    .byte %11111001
-    .byte %11111100
-    .byte %11111100
-    .byte %11111100
-    .byte %11111100
-    .byte %11111001
-    .byte %11001110
-
-HEAD_LEFT
-    .byte %01110011
-    .byte %10011111
-    .byte %00111111
-    .byte %00111111    
-    .byte %00111111
-    .byte %00111111
-    .byte %10011111
-    .byte %01110011
-
-HEAD_UP
-    .byte %01000010
-    .byte %10000001
-    .byte %10111101
-    .byte %11111111
-    .byte %01111110
-    .byte %01111110
-    .byte %11111111
-    .byte %11111111
-
-HEAD_DOWN
-    .byte %11111111
-    .byte %11111111
-    .byte %01111110
-    .byte %01111110
-    .byte %11111111
-    .byte %10111101
-    .byte %10000001
-    .byte %01000010
-
-GRASS
-    .byte %00000000
-    .byte %00000000
-    .byte %00000100
-    .byte %00101000
-    .byte %00011000
-    .byte %10001000
-    .byte %01000000
-    .byte %01000000
-
-OBSTACLE
-    .byte %00000000
-    .byte %00011100
-    .byte %00100010
-    .byte %01001001
-    .byte %01011101
-    .byte %01001001
-    .byte %01001001
-    .byte %01111111
 
 .endnamespace

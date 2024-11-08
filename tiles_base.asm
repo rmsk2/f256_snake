@@ -180,8 +180,29 @@ callPeekTileInt
     ldy #1
     lda (TILE_PTR1), y
     sta TILE_PARAMS.attrs
+    lda TILE_PARAMS.tileNr
     rts
 
+
+peekTileReg
+    stx tiles.TILE_PARAMS.xPos
+    sta tiles.TILE_PARAMS.yPos
+    jsr tiles.callPeekTile
+    rts
+
+
+plotTileReg
+    stx tiles.TILE_PARAMS.xPos
+    sty tiles.TILE_PARAMS.yPos
+    sta tiles.TILE_PARAMS.tileNr
+    pha
+    phx
+    phy
+    jsr tiles.callPokeTile
+    ply
+    plx
+    pla
+    rts
 
 MemSet_t .struct 
     valToSet     .byte ?

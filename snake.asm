@@ -18,14 +18,14 @@ STATE_RESTART = 7                    ; Restart game
 STATE_GAME = 6                       ; During game
 STATE_WAITING = 8                    ; Waiting for restart or quit
 
-HEAD_RIGHT = 212
-HEAD_LEFT  = 213
-HEAD_UP    = 211
-HEAD_DOWN  = 210
-BODY_CHAR  = 215
-FOOD_CHAR  = 255
-BACKGROUND_CHAR = 200
-OBSTACLE_CHAR = 0
+HEAD_RIGHT = HEAD_R_TILE
+HEAD_LEFT  = HEAD_L_TILE
+HEAD_UP    = HEAD_U_TILE
+HEAD_DOWN  = HEAD_D_TILE
+BODY_CHAR  = SEGMENT_TILE
+FOOD_CHAR  = APPLE_TILE
+BACKGROUND_CHAR = GRASS_TILE
+OBSTACLE_CHAR = OBSTACLE_TILE
 
 GAME_SPEED = 12
 
@@ -96,11 +96,24 @@ init
     sta txtdraw.RECT_PARAMS.lenx
     lda #SCREEN_Y
     sta txtdraw.RECT_PARAMS.leny
-    lda #TXT_GREEN | TXT_GRAY << 4
+    lda #TXT_GREEN
     sta txtdraw.RECT_PARAMS.col
     lda #BOOL_TRUE
     sta txtdraw.RECT_PARAMS.overwrite
     jsr txtdraw.drawRect
+
+    ldx #OFFSET_X
+    ldy #OFFSET_Y
+    lda #GRASS_TILE
+_loop
+    jsr tiles.plotTileReg
+    inx
+    cpx #OFFSET_X+SCREEN_X
+    bne _loop
+    ldx #OFFSET_X
+    iny
+    cpy #OFFSET_Y+SCREEN_Y
+    bne _loop
 
     lda #RIGHT
     sta GAME.direction
@@ -183,8 +196,6 @@ plotHeadCurrent
     ldx GAME.xPos
     ldy GAME.yPos
 plotHead
-    lda #TXT_GREEN
-    sta PLOT_TEMP_COL
     lda GAME.direction
     cmp #RIGHT
     bne _left
@@ -206,9 +217,6 @@ _down
 
 
 plotBody
-    ;lda #TXT_GREEN
-    lda #TXT_BROWN
-    sta PLOT_TEMP_COL
     lda #BODY_CHAR
     jmp plot
 
@@ -222,8 +230,6 @@ _done
 
 
 plotBackground
-    lda #TXT_GREEN | TXT_GRAY << 4
-    sta PLOT_TEMP_COL
     lda #BACKGROUND_CHAR
     jmp plot
 
@@ -234,21 +240,11 @@ testBackground
 
 
 plotFood
-    lda #TXT_GREEN | TXT_RED << 4
-    sta PLOT_TEMP_COL
     lda #FOOD_CHAR
     jmp plot
 
 
-; does not make much sense at the moment. Maybe
-; we have several food items in the future
-testFood
-    cmp #FOOD_CHAR
-    rts
-
-
 PLOT_TEMP_CHAR .byte 0
-PLOT_TEMP_COL  .byte 0
 PLOT_TEMP_X    .byte 0
 PLOT_TEMP_Y    .byte 0
 plot
@@ -263,13 +259,7 @@ plotInternal
     ldy PLOT_TEMP_Y
     lda PLOT_TEMP_CHAR
 
-    jsr txtio.pokeChar
-
-    ldx PLOT_TEMP_X
-    ldy PLOT_TEMP_Y
-    lda PLOT_TEMP_COL
-
-    jsr txtio.pokeColor
+    jsr tiles.plotTileReg
 
     rts
 
@@ -331,7 +321,7 @@ checkEnd
     #toScreenX GAME.xPos    
     tax
     #toScreenY GAME.yPos
-    jsr txtio.peekChar
+    jsr tiles.peekTileReg
     jsr testObstacle
     bne _notEnd
     lda #snake.STATE_WAITING
@@ -406,13 +396,15 @@ spawnFood
     jsr random.get
     sta CANDIDATE_X
     stx CANDIDATE_Y
+    ; no uniform distribution, but hey this is not a cryptographic
+    ; application
     #mod8x8Immediate SCREEN_X, CANDIDATE_X, REMAINDER_X
     #mod8x8Immediate SCREEN_Y, CANDIDATE_Y, REMAINDER_Y
 
     #toScreenX REMAINDER_X
     tax
     #toScreenY REMAINDER_Y
-    jsr txtio.peekChar
+    jsr tiles.peekTileReg
     jsr testBackground
     bne _done
 
@@ -426,11 +418,18 @@ _done
     rts
 
 
+; does not make much sense at the moment. Maybe
+; we have several food items in the future
+testFood
+    cmp #FOOD_CHAR
+    rts
+
+
 checkFood
     #toScreenX GAME.xPos
     tax
     #toScreenY GAME.yPos
-    jsr txtio.peekChar
+    jsr tiles.peekTileReg
     jsr testFood
     beq _eaten
     clc

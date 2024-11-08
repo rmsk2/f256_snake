@@ -23,6 +23,13 @@ TXT_RED = 5
 TXT_GRAY = 6
 TXT_BROWN = 7
 
+HEAD_COL = 1
+APPLE_COL = 2
+SEGMENT_COL = 3
+GRASS_COL = 4
+OBSTACLE_COL = 5
+SEG_COL2 = 6
+
 clut .namespace
 
 TXT_LUT_FORE_GROUND_BASE = $D800
@@ -77,12 +84,12 @@ init
     #saveIo
     
     #setIo 1
-    #setGfxColInt 1,  $E0, $01, $01, $FF
-    #setGfxColInt 2,  $FF, $79, $01, $FF
-    #setGfxColInt 3,  $FF, $E4, $01, $FF
-    #setGfxColInt 4,  $A6, $FF, $01, $FF
-    #setGfxColInt 5,  $01, $FF, $E4, $FF
-    #setGfxColInt 6,  $01, $9D, $FF, $FF
+    #setGfxColInt HEAD_COL,  $00, $00, $00, $FF
+    #setGfxColInt APPLE_COL,  $FF, $00, $00, $FF
+    #setGfxColInt SEGMENT_COL,  196, 164, 132, $FF
+    #setGfxColInt GRASS_COL,  $00, $B0, $00, $FF
+    #setGfxColInt OBSTACLE_COL,  $00, $00, $00, $FF
+    #setGfxColInt SEG_COL2,  $00, $00, $00, $FF
     #setGfxColInt 7,  $05, $01, $FF, $FF
     #setGfxColInt 8,  $8B, $01, $FF, $FF
     #setGfxColInt 9,  $FF, $01, $F6, $FF
