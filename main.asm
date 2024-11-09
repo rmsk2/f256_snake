@@ -20,7 +20,7 @@ jmp main
 .include "font.asm"
 .include "title.asm"
 
-USE_SNES_PAD = 0
+USE_SNES_PAD = 1
 
 ASCII_L1 = $30
 ASCII_LMAX = $34
