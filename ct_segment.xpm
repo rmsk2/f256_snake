@@ -1,0 +1,16 @@
+/* XPM */
+static char * ct_segment_xpm[] = {
+"8 8 5 1",
+" 	c #FFFFFFFFFFFF",
+".	c #333333333333",
+"X	c #8B8B5A5A0000",
+"o	c #CDCD85850000",
+"O	c #000000000000",
+" ...... ",
+".XXooXX.",
+".XoXXoX.",
+".XoOOoX.",
+".XoOOoX.",
+".XoXXoX.",
+".XXooXX.",
+" ...... "};

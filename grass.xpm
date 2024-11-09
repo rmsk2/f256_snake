@@ -1,0 +1,18 @@
+/* XPM */
+static char * grass_xpm[] = {
+"8 8 7 1",
+" 	c #FFFFFFFFFFFF",
+".	c #0000CDCD0000",
+"X	c #00008B8B0000",
+"o	c #0000CDCDCDCD",
+"O	c #00008B8B8B8B",
+"+	c #0000FFFFFFFF",
+"@	c #00000000FFFF",
+" . X X  ",
+"X   o  .",
+" . oX . ",
+"O X  .  ",
+" Xo.oX+X",
+"@X. o Xo",
+"  . . X ",
+".  ..   "};
