@@ -48,7 +48,7 @@ main
     jsr snes.init
 
     #configTileSetAddr TILE_SET_ADDR
-    #setBackGroundColour $00FF00
+    #setBackGroundColour $00D000
     jsr tiles.on
     jsr title.show
     jsr tiles.clearTileMap

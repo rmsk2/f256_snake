@@ -64,15 +64,15 @@ _loop
     jsr txtdraw.drawRect
 
     #plotTile 10, 10, APPLE_TILE
-    #plotTile 15, 15, SEGMENT_TILE
-    #plotTile 16, 15, SEGMENT_TILE
-    #plotTile 17, 15, SEGMENT_TILE
-    #plotTile 18, 15, SEGMENT_TILE
-    #plotTile 19, 15, SEGMENT_TILE
-    #plotTile 20, 15, SEGMENT_TILE
-    #plotTile 21, 15, SEGMENT_TILE
-    #plotTile 21, 14, SEGMENT_TILE
-    #plotTile 21, 13, SEGMENT_TILE
+    #plotTile 15, 15, CT_SEGMENT_TILE
+    #plotTile 16, 15, CT_SEGMENT_TILE
+    #plotTile 17, 15, CT_SEGMENT_TILE
+    #plotTile 18, 15, CT_SEGMENT_TILE
+    #plotTile 19, 15, CT_SEGMENT_TILE
+    #plotTile 20, 15, CT_SEGMENT_TILE
+    #plotTile 21, 15, CT_SEGMENT_TILE
+    #plotTile 21, 14, CT_SEGMENT_TILE
+    #plotTile 21, 13, CT_SEGMENT_TILE
     #plotTile 21, 12, HEAD_U_TILE
     #plotTile 25, 14, OBSTACLE_TILE
     #plotTile 26, 13, OBSTACLE_TILE

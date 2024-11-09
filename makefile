@@ -12,16 +12,23 @@ SUDO=
 FORCE=
 endif
 
+PICS = grass.xpm obstacle.xpm apple.xpm ct_segment.xpm
 
 all: pgz
-pgz: $(BINARY).pgz
+pgz: $(AUTO_GEN) $(BINARY).pgz
 
-$(BINARY): *.asm
+$(BINARY): *.asm *.inc
 	64tass --nostart -o $(BINARY) main.asm
+
+*.inc: $(PICS)
+	python3 xpm2t64.py $(PICS)
 
 clean: 
 	$(RM) $(FORCE) $(BINARY)
 	$(RM) $(FORCE) $(BINARY).pgz
+	$(RM) $(FORCE) auto_cols.inc
+	$(RM) $(FORCE) auto_tiles.inc
+	$(RM) $(FORCE) auto_clut.inc
 
 upload: $(BINARY).pgz
 	$(SUDO) python fnxmgr.zip --port $(PORT) --run-pgz $(BINARY).pgz

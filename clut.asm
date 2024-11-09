@@ -30,6 +30,8 @@ GRASS_COL = 4
 OBSTACLE_COL = 5
 SEG_COL2 = 6
 
+.include "auto_cols.inc"
+
 clut .namespace
 
 TXT_LUT_FORE_GROUND_BASE = $D800
@@ -73,6 +75,18 @@ setGfxColInt .macro colNum, red, green, blue, alpha
 .endmacro
 
 
+setGfxColAlternate .macro colNum, val
+    lda #<\val
+    sta GFX_LUT_BASE + (\colNum * 4)
+    lda #>\val
+    sta GFX_LUT_BASE + (\colNum * 4) + 1
+    lda #`\val
+    sta GFX_LUT_BASE + (\colNum * 4) + 2
+    lda #$FF
+    sta GFX_LUT_BASE + (\colNum * 4) + 3
+.endmacro
+
+
 setGfxCol .macro colNum, red, green, blue, alpha
     #saveIo
     #setIo 1
@@ -90,13 +104,8 @@ init
     #setGfxColInt GRASS_COL,  $00, $B0, $00, $FF
     #setGfxColInt OBSTACLE_COL,  $00, $00, $00, $FF
     #setGfxColInt SEG_COL2,  $00, $00, $00, $FF
-    #setGfxColInt 7,  $05, $01, $FF, $FF
-    #setGfxColInt 8,  $8B, $01, $FF, $FF
-    #setGfxColInt 9,  $FF, $01, $F6, $FF
-    #setGfxColInt 10, $FF, $01, $79, $FF
-    #setGfxColInt 11, $FF, $FF, $FF, $FF
-    #setGfxColInt 12, $ED, $FF, $01, $FF
-    #setGfxColInt 13, $01, $FF, $C1, $FF
+
+.include "auto_clut.inc"
 
     #setIo 0
     #setTxtColInt TXT_BLACK,  $00, $00, $00, $FF
