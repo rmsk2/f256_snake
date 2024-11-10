@@ -314,6 +314,9 @@ pushPos
     jsr data.pushFront
     rts
 
+TXT_OVER       .text " GAME OVER! "
+TXT_END        .text "PRESS F3 TO EXIT"
+TXT_REPLAY     .text "PRESS 0-4 OR SPACE TO PLAY AGAIN"
 
 ; carry set if game can continue, else carry clear
 TEMP_CHAR .byte 0
@@ -326,8 +329,12 @@ checkEnd
     bne _notEnd
     lda #snake.STATE_WAITING
     sta snake.GAME.state
-    #locate 3, 27
+    #locate 15, 0
+    #printString TXT_OVER, len(TXT_OVER)
+    #locate 12, 27
     #printString TXT_END, len(TXT_END)
+    #locate 4, 29
+    #printString TXT_REPLAY, len(TXT_REPLAY)
     clc
     rts
 _notEnd

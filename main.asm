@@ -31,8 +31,7 @@ ASCII_LEFT = 2
 ASCII_RIGHT = 6
 ASCII_SPACE = $20
 
-TXT_START      .text "PRESS 0-4 TO PLAY. F3 TO EXIT."
-TXT_END        .text "GAME OVER. PRESS 0-4 TO PLAY AGAIN."
+TXT_START      .text "PRESS F3 TO EXIT"
 TXT_PAUSED     .text "PAUSED"
 TXT_NOT_PAUSED .text "      "
 TXT_LEVEL_S    .text "S", $0d, "C", $0d, "R", $0d, "E", $0d, "E", $0d, "N "
@@ -69,7 +68,7 @@ main
     jsr setTimerClockTick
 _restart
     jsr snake.init
-    #locate 5, 27
+    #locate 12, 27
     #printString TXT_START, len(TXT_START)
 
     #locate 0, 1
@@ -161,7 +160,17 @@ _checkF3
 _pause
     cmp #ASCII_SPACE
     bne _end
+    lda snake.GAME.state
+    cmp #snake.STATE_GAME
+    bne _checkWaiting
     jsr procPauseRequest
+    bra _end
+_checkWaiting
+    cmp #snake.STATE_WAITING
+    bne _end
+    lda #snake.STATE_RESTART
+    sta snake.GAME.state
+    bra _done
 _end
     sec
     rts    
