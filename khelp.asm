@@ -166,7 +166,7 @@ _evalUp
     lda myEvent.key.raw                                      ; retrieve raw key code
     jsr testForFKey
     bcc simpleKeyEventLoop                                   ; a meta key but not an F-Key was pressed => we are not done
-    bra _doProcUp                                              ; it was an F-Key 
+    bra _doProcUp                                            ; it was an F-Key 
 _isAsciiUp
     lda myEvent.key.ascii
 _doProcUp
