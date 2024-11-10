@@ -143,7 +143,8 @@ def gen_asm(all_tiles, all_cols, col_offset, tile_offset):
         count += 1
 
     # Write a file which creates a 64tass label for each nonzero colour. The label value holds the
-    # colour number in the F256 graphics CLUT. The colour number simply is the position in col_nums.
+    # colour number in the F256 graphics CLUT. The colour number simply is the position in col_nums
+    # plus an offset specified in the parameter tile_offset.
     with open("auto_cols.inc", "w") as f:
         for i in range(len(col_nums)):
             col_obj = all_cols[col_nums[i]]
@@ -181,11 +182,50 @@ def gen_asm(all_tiles, all_cols, col_offset, tile_offset):
             tile_count += 1
 
 
+def mirror_x(tile_data):
+    res = [None, None, None, None, None, None, None, None]
+    
+    for i in range(4):
+        res[i] = tile_data[7-i]
+        res[7-i] = tile_data[i]
+    
+    return res
+
+
+def transpose(tile_data):    
+    res = []
+
+    for i in range(8):
+        res.append([None, None, None, None, None, None, None, None])
+    
+    for i in range(8):
+        for j in range(8):
+            res[j][i] = tile_data[i][7-j]
+
+    return res
+
+
+def mirror_y(tile_data):
+    res = []
+
+    for i in range(8):
+        res.append([None, None, None, None, None, None, None, None])
+
+    def copy_colum(source, target):
+        for y in range(8):
+            res[y][target] = tile_data[y][source]    
+
+    for i in range(8):
+        copy_colum(7-i, i)
+    
+    return res
+
+
 def process_xpms(file_names):
     # First colour number which can be assigned automatically
     COL_OFFSET = 7
     # First tile number which can be assigned automatically
-    TILE_OFFSET = 5
+    TILE_OFFSET = 1
     all_cols = {}
     # data of all tiles. Maps the name of the tile to the pixel data
     all_tiles = {}
@@ -196,6 +236,14 @@ def process_xpms(file_names):
         all_tiles[i[:-4]] = tile
         all_cols = new_cols
     
+    head_data = all_tiles['head']
+    del all_tiles['head']
+
+    all_tiles['head_up'] = head_data
+    all_tiles['head_down'] = mirror_x(head_data)
+    all_tiles['head_left'] = transpose(head_data)
+    all_tiles['head_right'] = mirror_y(all_tiles['head_left'])
+
     gen_asm(all_tiles, all_cols, COL_OFFSET, TILE_OFFSET)
 
 

@@ -6,11 +6,11 @@ during the October 2024 game jam on the Foenix retro systems discord server.
 The game idea is simple and well known: A caterpillar wants to eat apples, which appear at
 random locations on the playfield. Unfortunately for each apple it consumes it grows longer. 
 The number of apples already consumed is shown in the top left corner. The caterpillar must not 
-collide with itself or with the gravestones which can be found on the screens. There are 
+collide with itself or with the rocks which can be found on the screens. There are 
 five screens at the moment, which present different sets of additional obstacles.
 
-In principle the graveyard has no boundaries, i.e. if the caterpillar moves out of the playfield 
-it simply reappears on the opposite end if there is no gravestone in the way.
+In principle the playfield has no boundaries, i.e. if the caterpillar moves out of the playfield 
+it simply reappears on the opposite end if there is no rock in the way.
 
 The game can be controlled with the cursor keys, a joystick in port 0 or an SNES pad in the first
 socket. Whenever you press one of the keys 0, 1, 2, 3 or 4 you start a new game on the corresponding screen. 
@@ -26,8 +26,11 @@ the current game is not stopped when the game is paused.
 # A bit of technical info
 
 `f256_snake` runs in 40x30 characters text mode on top of an 8x8 tiles layer to draw the playing 
-field. In theory each tile can show pixels in 256 colours. Unfortunately the current tile set is not
-that detailed: Each tile only makes use two colours. But I will try to improve this aspect of the game. 
+field. The tiles can be edited using any program, which can read and write pictures in `.xpm` format.
+A python script (`xpm2t64.py`) is used to auto generate `64tass` compatible source code fom the picture 
+data. One only has to draw the head of the caterpillar in 'up' direction. The other orientations are
+created automatically by `xpm2t64.py` using corresponding transformations.
+
 As `f256_snake` also uses some modified characters you have to switch your machine off and on again
 if you want to get rid of the modified font.
 

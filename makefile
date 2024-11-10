@@ -12,7 +12,7 @@ SUDO=
 FORCE=
 endif
 
-PICS = grass.xpm obstacle.xpm apple.xpm ct_segment.xpm
+PICS = grass.xpm obstacle.xpm apple.xpm ct_segment.xpm head.xpm
 
 all: pgz
 pgz: $(AUTO_GEN) $(BINARY).pgz
@@ -21,7 +21,7 @@ $(BINARY): *.asm *.inc
 	64tass --nostart -o $(BINARY) main.asm
 
 *.inc: $(PICS)
-	python3 xpm2t64.py $(PICS)
+	python xpm2t64.py $(PICS)
 
 clean: 
 	$(RM) $(FORCE) $(BINARY)

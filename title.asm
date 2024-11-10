@@ -1,6 +1,6 @@
 title .namespace
 
-TITLE .text "F256 SNAKE v1.1.1"
+TITLE .text "F256 SNAKE v1.2.0"
 TXT_AUTHOR .text "BY MARTIN GRAP (@mgr42)"
 TXT_PAUSE .text "PRESS SPACE TO PAUSE OR RESUME GAME"
 TXT_LEVEL .text "PRESS 0-4 TO ENTER CORRESPONDING SCREEN"
@@ -73,7 +73,7 @@ _loop
     #plotTile 21, 15, CT_SEGMENT_TILE
     #plotTile 21, 14, CT_SEGMENT_TILE
     #plotTile 21, 13, CT_SEGMENT_TILE
-    #plotTile 21, 12, HEAD_U_TILE
+    #plotTile 21, 12, HEAD_UP_TILE
     #plotTile 25, 14, OBSTACLE_TILE
     #plotTile 26, 13, OBSTACLE_TILE
     #plotTile 27, 12, OBSTACLE_TILE

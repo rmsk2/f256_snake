@@ -1,0 +1,16 @@
+/* XPM */
+static char * head_xpm[] = {
+"8 8 5 1",
+" 	c #FFFFFFFFFFFF",
+".	c #8B8B5A5A0000",
+"X	c #333333333333",
+"o	c #000000000000",
+"O	c #CCCCCCCCCCCC",
+"  .  .  ",
+" .    . ",
+" .XooX. ",
+" ..oo.. ",
+"Xo.XX.oX",
+"XoOooOoX",
+"XooooooX",
+" oooooo "};
