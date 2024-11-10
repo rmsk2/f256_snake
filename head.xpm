@@ -8,7 +8,7 @@ static char * head_xpm[] = {
 "O	c #CCCCCCCCCCCC",
 "  .  .  ",
 " .    . ",
-" .XooX. ",
+" .X  X. ",
 " ..oo.. ",
 "Xo.XX.oX",
 "XoOooOoX",
