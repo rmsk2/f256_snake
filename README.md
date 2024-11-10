@@ -17,6 +17,8 @@ socket. Whenever you press one of the keys 0, 1, 2, 3 or 4 you start a new game 
 When F3 is pressed the game is ended and SuperBASIC is restarted. You can pause the game by pressing 
 the space bar. Press the space bar again in order to resume the game. You can also pause and resume
 the game with the fire button on the joystick or the two buttons at the front of the SNES pad.
+If you press space after a game has ended a new game is started on the same screen as the previous
+game.
 
 The duration of the current game is shown below the playfield. Calculating the duration of
 the current game is not stopped when the game is paused.
@@ -47,7 +49,7 @@ by which the caterpillar can be controlled.
 You can turn off SNES pad support by setting the constant `USE_SNES_PAD` in `main.asm` to 0. Doing
 this allows you to run the program in the emulator.
 
-Look at the file `screens.asm` in order to find three examples for levels if you want to add your own.
+Look at the file `screens.asm` in order to find five examples for levels if you want to add your own.
 If you want to do that you also have to modify the constant `ASCII_LMAX` to the ASCII value of the 
 highest level number between `0` and `9` in order to make all levels selectable in the "UI". 
 If you want to be thorough you can adapt the text values `TXT_START` and `TXT_END` to reflect 
