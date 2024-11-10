@@ -239,6 +239,8 @@ def process_xpms(file_names):
     head_data = all_tiles['head']
     del all_tiles['head']
 
+    # Auto generate tiles for the three orientations of the caterpillar
+    # head which are not drawn by hand
     all_tiles['head_up'] = head_data
     all_tiles['head_down'] = mirror_x(head_data)
     all_tiles['head_left'] = transpose(head_data)
