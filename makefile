@@ -13,22 +13,22 @@ FORCE=
 endif
 
 PICS = grass.xpm obstacle.xpm apple.xpm ct_segment.xpm head.xpm
+TILE_INCLUDES = auto_cols.inc auto_tiles.inc auto_clut.inc
 
 all: pgz
-pgz: $(AUTO_GEN) $(BINARY).pgz
+pgz: $(BINARY).pgz
 
-$(BINARY): *.asm *.inc
+$(BINARY): *.asm $(TILE_INCLUDES)
 	64tass --nostart -o $(BINARY) main.asm
 
-*.inc: $(PICS)
+$(TILE_INCLUDES): $(PICS)
 	python xpm2t64.py $(PICS)
 
 clean: 
 	$(RM) $(FORCE) $(BINARY)
 	$(RM) $(FORCE) $(BINARY).pgz
-	$(RM) $(FORCE) auto_cols.inc
-	$(RM) $(FORCE) auto_tiles.inc
-	$(RM) $(FORCE) auto_clut.inc
+	$(RM) $(FORCE) $(TILE_INCLUDES)
+
 
 upload: $(BINARY).pgz
 	$(SUDO) python fnxmgr.zip --port $(PORT) --run-pgz $(BINARY).pgz
