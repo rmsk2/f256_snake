@@ -38,6 +38,7 @@ def remove_chars(col_def):
     
     return col_def
 
+
 #Parse a color defintion line
 def parse_color(data):
     # Make sure , oder ; are not used as a standin for a colour
