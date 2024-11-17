@@ -1,0 +1,70 @@
+
+Snake for the F256
+==================
+
+In this game a caterpillar wants to eat as many apples as possible which appear
+at random locations on the playing field. The problem is that with each apple
+the caterpillar eats the longer it gets. While moving over the playing field
+it must not collide with itself or with the rocks that can be found on the
+playing field. If it does collide with an obstacle the game ends.
+
+In principle the playing field has no boundaries, i.e. if the caterpillar moves
+out of the playing field on one side it reappears on the oppsite side of the
+playing field. This is of course only possible if no rock is in the way.
+
+
+How to play
+===========
+
+The game has five different screens, each of which can be entered directly from
+the title screen by pressing any of the keys 0-4. The screens differ in the
+set of additional obstacles which are present on them.
+
+After the game has started you can control the caterpillar via the cursor keys,
+a joystick in port 0 or an SNES pad in the upper left socket of the Foenix SNES
+adapter.
+
+During game play you can pause the game either by pressing the space bar,
+the fire button on the joystick or any of the two buttons on the front of the
+SNES pad. Pressing any of these keys or buttons again resumes the game.
+
+The number of apples eaten is shown in the upper left corner. The amount of
+time which has passed since the game was started is displayed below the
+playing field. The time is stopped when the game is over but it continues to be
+measured while the game is paused.
+
+After the game has ended you can press the space bar to play on the current
+screen again or you can start playing on another screen by pressing any of the
+keys 0-4. Pressing F3 at any time during game play or after the game has ended
+stops the program and restarts SuperBASIC.
+
+
+Tips
+====
+
+The clock in the caterpillar's world ticks about five times a second and you
+only can turn once during a clock tick. While it is possible to change 
+direction in clocktick n and then change into another direction in clock tick 
+n+1 this does not work all the time, as one fifth of a second is not that 
+much time to react. So be careful when planning a move that requires such a
+tight turn.
+
+This game modifes the font for instance to disply three little apple characters 
+on top of the apple count. When the program stops the modified font is still 
+in use. If you want to get rid of the modified character set you have to switch
+your machine off and on again.  
+
+
+Source code
+===========
+
+The source code for this game is available under the MIT license and can be
+found on github:
+
+https://github.com/rmsk2/f256_snake
+
+This help file has been created on my F256K using my text editor for the 
+platform which is called 'moreorless'. Binaries and source code for the editor
+are also available under MIT license and can be found on my github page,i.e. at
+
+https://github.com/rmsk2/moreorless
