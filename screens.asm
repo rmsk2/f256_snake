@@ -227,26 +227,24 @@ LEVEL5_OBSTACLES
     .byte 23, 4
     .byte 22, 4
 
-; This only works for a maximum number of 128 blocks
+; This only works for a maximum number of 255 blocks
 NUM_BLOCKS .byte 0
 plotObstacles
     sta NUM_BLOCKS
     cmp #0
     beq _nothing
-    ldy #0
     ldx #0
 _loop
+    ldy #0
     lda (LVL_PTR2), y
     sta snake.PLOT_TEMP_X
     iny
     lda (LVL_PTR2), y
     sta snake.PLOT_TEMP_Y
-    iny
-    phy
+    #add16bitImmediate 2, LVL_PTR2
     phx
     jsr snake.plotInternal
     plx
-    ply
     inx
     cpx NUM_BLOCKS
     bne _loop
