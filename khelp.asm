@@ -235,10 +235,10 @@ setTimerAnimation
     #setTimerHelp kernel.args.timer.FRAMES, TIMER_SPEED, TIMER_COOKIE_ANIMATION
     rts
 
-
+CLOCK_TICK .byte 1
 TIMER_COOKIE_CLOCK .byte 29
 setTimerClockTick
-    #setTimerHelp kernel.args.timer.SECONDS, 1, TIMER_COOKIE_CLOCK
+    #setTimerHelp kernel.args.timer.SECONDS, CLOCK_TICK, TIMER_COOKIE_CLOCK
     rts
 
 
