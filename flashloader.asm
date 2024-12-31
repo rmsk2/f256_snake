@@ -66,8 +66,8 @@ load16BitImmediate .macro  val, addr
 
 
 ; Please add an entry for each 8K data block which you want to copy from flash
-BLOCK1 .dstruct BlockSpec_t, $80 - 64, 0, 3, 32  ; copy flash block $17 (block number 64 + $17) to RAM block 0. Start at offset $0300
-BLOCK2 .dstruct BlockSpec_t, $81 - 64, 1, 0, 32  ; copy flash block $18 (block number 64 + $18) to RAM block 1. Start at offset $0000
+BLOCK1 .dstruct BlockSpec_t, $80 - 64, 0, 3, 32  ; copy flash block $40 (block number $80) to RAM block 0. Start at offset $0300
+BLOCK2 .dstruct BlockSpec_t, $81 - 64, 1, 0, 32  ; copy flash block $41 (block number $81) to RAM block 1. Start at offset $0000
 
 
 loader
