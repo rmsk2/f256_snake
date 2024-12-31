@@ -4,6 +4,7 @@ SUDO=
 
 BINARY=snake
 FORCE=-f
+PYTHON=python3
 
 ifdef WIN
 RM=del
@@ -14,6 +15,8 @@ endif
 
 PICS = grass.xpm obstacle.xpm apple.xpm ct_segment.xpm head.xpm
 TILE_INCLUDES = auto_cols.inc auto_tiles.inc auto_clut.inc
+LOADER=loader.bin
+FLASHBLOCKS = snake.bin
 
 all: pgz
 pgz: $(BINARY).pgz
@@ -26,8 +29,10 @@ $(TILE_INCLUDES): $(PICS)
 
 clean: 
 	$(RM) $(FORCE) $(BINARY)
+	$(RM) $(FORCE) $(LOADER)
 	$(RM) $(FORCE) $(BINARY).pgz
 	$(RM) $(FORCE) $(TILE_INCLUDES)
+	$(RM) $(FORCE) $(BINARY).bin
 
 
 upload: $(BINARY).pgz
@@ -37,3 +42,12 @@ upload: $(BINARY).pgz
 $(BINARY).pgz: $(BINARY)
 	python3 make_pgz.py $(BINARY)
 
+
+$(LOADER): flashloader.asm
+	64tass --nostart -o $(LOADER) flashloader.asm
+
+.PHONY: cartridge
+cartridge: $(FLASHBLOCKS)
+
+$(FLASHBLOCKS) &: $(BINARY) $(LOADER)
+	$(PYTHON) pad_binary.py $(BINARY) $(LOADER)
