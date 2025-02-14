@@ -20,7 +20,10 @@ jmp main
 .include "font.asm"
 .include "title.asm"
 
-USE_SNES_PAD = 1
+;***************************
+;* This variable has to be set on the 64tass command line
+;***************************
+;USE_SNES_PAD = 1
 
 ASCII_L1 = $30
 ASCII_LMAX = $34

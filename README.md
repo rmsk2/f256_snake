@@ -42,12 +42,24 @@ You will need a python3 interpreter, GNU make and 64tass on your machine to buil
 Use `make` to build a `.pgz` executable and transfer it to your machine via an SD-card or `dcopy`.
 Alternatively you can use `make upload` to upload and start the program via the USB debug port.
 
+If you execute `make dist` the following files are created in the `dist` subfolder of the
+project directory:
+
+- `cart_snake.bin` a cartridge image which can be written to a flash expansion cartridge
+- `snake_01.bin` and `snake_02.bin` which can be written to onboard flash via FoenixMgr
+- `snake.pgz` a binary which can be run from any drive via `pexec`
+- `snake_emu.pgz` a binary which lacks support for the SNES pad. It can also be run in the emulator.
+
+You will also find these binaries in the Release section of this repo. `f256_snake` is relocatable in
+flash memory, i.e. it can be written to arbitrary consecutive blocks in onboard flash or a flash cartridge.
+
 If the game runs too slow for your taste you can try to decrease the value of the constant 
 `GAME_SPEED` which is defined in the file `snake.asm`. Unfortuately this also decreases the precision
 by which the caterpillar can be controlled.
 
-You can turn off SNES pad support by setting the constant `USE_SNES_PAD` in `main.asm` to 0. Doing
-this allows you to run the program in the emulator.
+You can turn off and on SNES pad support by setting the constant `USE_SNES_PAD` in `main.asm` to 0 or 1.
+Turning it off allows you to run the program in the emulator. It is expected that this constant is set by
+`-D USE_SNES_PAD=0/1` when calling `64tass`.
 
 Look at the file `screens.asm` in order to find five examples for screens if you want to add your own.
 If you want to do that you also have to modify the constant `ASCII_LMAX` to the ASCII value of the 
